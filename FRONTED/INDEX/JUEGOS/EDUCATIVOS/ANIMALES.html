@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rompecabezas de Animales</title>
+    <link rel="stylesheet" href="../../../CSS/Index.css">
+</head>
+<body class="juego-animales-body">
+
+<div class="game-container">
+    <button class="back-btn" onclick="window.history.back()" title="Volver">⬅</button>
+
+    <h1>🧩 Rompecabezas 🧩</h1>
+
+    <div class="level-selector">
+        <button class="level-btn active" onclick="changeLevel(2, this)">Fácil (2x2)</button>
+        <button class="level-btn" onclick="changeLevel(3, this)">Medio (3x3)</button>
+        <button class="level-btn" onclick="changeLevel(4, this)">Difícil (4x4)</button>
+    </div>
+
+    <div class="animal-title" id="animalTitle">🐱 Gato</div>
+
+    <div class="puzzle-board" id="board"></div>
+
+    <div class="message" id="message"></div>
+    <div class="info-box" id="infoBox"></div>
+
+    <button class="action-btn" onclick="nextAnimal()">¡Siguiente Animal!</button>
+</div>
+
+<script>
+    const BOARD_SIZE = 320; // Tamaño fijo en píxeles para el tablero
+
+    // URLs actualizadas con imágenes cuadradas perfeccionadas
+    const animalsByLevel = {
+        2: [
+            { 
+                name: '🐱 Gato', 
+                url: '../../../ELEMENTOS/IMG_juegos/gato_R_11zon.webp',
+                info: '💡 **¿Sabías que...?** Los gatos pueden saltar hasta 6 veces su tamaño y usan sus bigotes para saber si caben por un espacio.'
+            },
+            { 
+                name: '🐶 Perro', 
+                url: '../../../ELEMENTOS/IMG_juegos/perro_R_11zon.webp',
+                info: '💡 **¿Sabías que...?** El olfato de un perro es miles de veces más fuerte que el de los humanos. ¡Pueden oler cosas increíbles!'
+            },
+            { 
+                name: '🐰 Conejo', 
+                url: '../../../ELEMENTOS/IMG_juegos/conejo_R_11zon.webp',
+                info: '💡 **¿Sabías que...?** A los conejos les crecen los dientes durante toda su vida y brincan de alegría cuando están muy felices.'
+            }
+        ],
+        3: [
+            { 
+                name: '🦁 León', 
+                url: '../../../ELEMENTOS/IMG_juegos/leon_R_11zon.webp',
+                info: '💡 **¿Sabías que...?** Al león lo llaman el rey de la selva y su rugido es tan fuerte que se escucha a kilómetros.'
+            },
+            { 
+                name: '🐼 Panda', 
+                url: '../../../ELEMENTOS/IMG_juegos/panda_R_11zon.webp',
+                info: '💡 **¿Sabías que...?** Los osos panda pasan hasta 12 horas al día comiendo su comida favorita: ¡el bambú!'
+            },
+            { 
+                name: '🐘 Elefante', 
+                url: '../../../ELEMENTOS/IMG_juegos/elefante_R_11zon.webp',
+                info: '💡 **¿Sabías que...?** Los elefantes usan su trompa para respirar, oler, beber agua y hasta para saludar a sus amigos.'
+            }
+        ],
+        4: [
+            { 
+                name: '🐬 Delfín', 
+                url: '../../../ELEMENTOS/IMG_juegos/delfin_R.webp',
+                info: '💡 **¿Sabías que...?** Los delfines son súper inteligentes, se comunican haciendo silbidos y duermen con un ojo abierto.'
+            },
+            { 
+                name: '🐧 Pingüino', 
+                url: '../../../ELEMENTOS/IMG_juegos/pinguino_R_11zon.webp',
+                info: '💡 **¿Sabías que...?** Aunque son aves, los pingüinos no pueden volar por el aire, ¡pero nadan súper rápido en el agua!'
+            },
+            { 
+                name: '🐋 Ballena', 
+                url: '../../../ELEMENTOS/IMG_juegos/ballena_R.webp',
+                info: '💡 **¿Sabías que...?** La ballena azul es el animal más grande del planeta. ¡Es más larga que tres autobuses juntos!'
+            }
+        ]
+    };
+
+    let currentGridSize = 2;
+    let currentAnimalIndex = 0;
+    let tiles = [];
+    let firstSelectedTile = null;
+
+    function changeLevel(gridSize, btnElement) {
+        currentGridSize = gridSize;
+        currentAnimalIndex = 0;
+        
+        const buttons = document.querySelectorAll('.level-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        btnElement.classList.add('active');
+
+        initGame();
+    }
+
+    function nextAnimal() {
+        const currentList = animalsByLevel[currentGridSize];
+        currentAnimalIndex = (currentAnimalIndex + 1) % currentList.length;
+        initGame();
+    }
+
+    function initGame() {
+        const animalList = animalsByLevel[currentGridSize];
+        const animal = animalList[currentAnimalIndex];
+        
+        document.getElementById('animalTitle').innerText = animal.name;
+        document.getElementById('message').innerText = '';
+        
+        const infoBox = document.getElementById('infoBox');
+        infoBox.style.display = 'none';
+        infoBox.innerHTML = '';
+
+        firstSelectedTile = null;
+
+        const board = document.getElementById('board');
+        board.style.gridTemplateColumns = `repeat(${currentGridSize}, 1fr)`;
+        board.style.gridTemplateRows = `repeat(${currentGridSize}, 1fr)`;
+        board.innerHTML = '';
+
+        const totalTiles = currentGridSize * currentGridSize;
+        let tileIndices = Array.from({ length: totalTiles }, (_, i) => i);
+
+        do {
+            tileIndices.sort(() => Math.random() - 0.5);
+        } while (isSolved(tileIndices));
+
+        tiles = tileIndices;
+
+        tiles.forEach((correctIndex, currentIndex) => {
+            const tile = document.createElement('div');
+            tile.className = 'tile';
+            
+            updateTileBackground(tile, correctIndex, animal.url);
+
+            tile.onclick = () => selectTile(tile, currentIndex);
+            board.appendChild(tile);
+        });
+    }
+
+    function updateTileBackground(tile, correctIndex, imgUrl) {
+        const row = Math.floor(correctIndex / currentGridSize);
+        const col = correctIndex % currentGridSize;
+        
+        const tileSize = BOARD_SIZE / currentGridSize;
+        const posX = -(col * tileSize);
+        const posY = -(row * tileSize);
+
+        tile.style.backgroundImage = `url('${imgUrl}')`;
+        tile.style.backgroundSize = `${BOARD_SIZE}px ${BOARD_SIZE}px`;
+        tile.style.backgroundPosition = `${posX}px ${posY}px`;
+    }
+
+    function selectTile(tileElement, index) {
+        if (firstSelectedTile === null) {
+            firstSelectedTile = { element: tileElement, index: index };
+            tileElement.classList.add('selected');
+        } else {
+            const secondIndex = index;
+            const firstIndex = firstSelectedTile.index;
+
+            firstSelectedTile.element.classList.remove('selected');
+
+            if (firstIndex !== secondIndex) {
+                let temp = tiles[firstIndex];
+                tiles[firstIndex] = tiles[secondIndex];
+                tiles[secondIndex] = temp;
+
+                renderBoard();
+
+                if (isSolved(tiles)) {
+                    const animal = animalsByLevel[currentGridSize][currentAnimalIndex];
+                    document.getElementById('message').innerText = '🎉 ¡Excelente! ¡Lo lograste!';
+                    
+                    const infoBox = document.getElementById('infoBox');
+                    infoBox.innerHTML = animal.info.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                    infoBox.style.display = 'block';
+                }
+            }
+
+            firstSelectedTile = null;
+        }
+    }
+
+    function renderBoard() {
+        const animalList = animalsByLevel[currentGridSize];
+        const animal = animalList[currentAnimalIndex];
+        const boardTiles = document.querySelectorAll('.tile');
+
+        tiles.forEach((correctIndex, currentIndex) => {
+            const tile = boardTiles[currentIndex];
+            updateTileBackground(tile, correctIndex, animal.url);
+        });
+    }
+
+    function isSolved(currentTiles) {
+        return currentTiles.every((val, index) => val === index);
+    }
+
+    initGame();
+</script>
+
+</body>
+</html>

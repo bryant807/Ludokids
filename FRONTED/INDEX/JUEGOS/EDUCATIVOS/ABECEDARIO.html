@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego del Abecedario</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+            background-color: #fff3e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 10px;
+        }
+
+        .game-container {
+            position: relative;
+            background-color: #ffffff;
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            max-width: 550px;
+            width: 100%;
+            border: 4px solid #ffb74d;
+        }
+
+        /* Botón Volver */
+        .back-btn {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background-color: #fff3e0;
+            color: #e65100;
+            border: 2px solid #ffb74d;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.2em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.2s, background 0.2s;
+            padding: 0;
+        }
+
+        .back-btn:hover {
+            background-color: #ffb74d;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        h1 {
+            color: #f57c00;
+            margin-top: 15px;
+            margin-bottom: 5px;
+        }
+
+        .instruction {
+            font-size: 1.1em;
+            color: #e65100;
+            margin-bottom: 15px;
+        }
+
+        .card-box {
+            background-color: #fff8e1;
+            border: 3px dashed #ffe082;
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .word-image {
+            width: 180px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 12px;
+            border: 3px solid #ffb74d;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .word-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #424242;
+        }
+
+        .drop-zone {
+            width: 50px;
+            height: 50px;
+            border: 3px dashed #ff9800;
+            border-radius: 10px;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #e65100;
+            font-size: 0.9em;
+            transition: all 0.2s;
+        }
+
+        .drop-zone.hovered {
+            background-color: #ffe0b2;
+            transform: scale(1.1);
+        }
+
+        .drop-zone.filled {
+            border: 3px solid #4caf50;
+            background-color: #c8e6c9;
+            color: #2e7d32;
+        }
+
+        .options-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 15px 0;
+            min-height: 60px;
+        }
+
+        .draggable-letter {
+            width: 55px;
+            height: 55px;
+            background-color: #ff9800;
+            color: white;
+            font-size: 1.8em;
+            font-weight: bold;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: grab;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+            user-select: none;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+
+        .draggable-letter:active {
+            cursor: grabbing;
+        }
+
+        .draggable-letter:hover {
+            transform: scale(1.1);
+            background-color: #f57c00;
+        }
+
+        .message {
+            font-size: 1.2em;
+            font-weight: bold;
+            height: 25px;
+            color: #2e7d32;
+            margin-top: 5px;
+        }
+
+        .info-box {
+            display: none;
+            background-color: #e8f5e9;
+            border: 2px dashed #81c784;
+            border-radius: 12px;
+            padding: 10px;
+            margin: 10px 0;
+            color: #1b5e20;
+            font-size: 1em;
+            line-height: 1.3;
+        }
+
+        .action-btn {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background 0.3s;
+            margin-top: 5px;
+        }
+
+        .action-btn:hover {
+            background-color: #388e3c;
+        }
+    </style>
+</head>
+<body>
+
+<div class="game-container">
+    <button class="back-btn" onclick="window.history.back()" title="Volver">⬅</button>
+
+    <h1> El Abecedario </h1>
+    <p class="instruction">¡Arrastra la letra correcta para completar la palabra!</p>
+
+    <div class="card-box">
+        <img id="wordImage" class="word-image" src="" alt="Imagen de la palabra">
+        <div class="word-display" id="wordDisplay"></div>
+    </div>
+
+    <div class="options-container" id="optionsContainer"></div>
+
+    <div class="message" id="message"></div>
+    <div class="info-box" id="infoBox"></div>
+
+    <button class="action-btn" onclick="nextQuestion()">¡Siguiente Palabra!</button>
+</div>
+
+<script>
+    const alphabetData = [
+        // A
+        { full: 'ABEJA', missing: 'A', img: "../../../ELEMENTOS/IMG_juegos/abeja.webp", info: '💡 **Letra A:** ¡Las **Abejas** fabrican la deliciosa miel!' },
+        { full: 'AVION', missing: 'A', img: "../../../ELEMENTOS/IMG_juegos/avion.webp", info: '💡 **Letra A:** ¡Los **Aviones** vuelan muy alto entre las nubes!' },
+        // B
+        { full: 'BARCO', missing: 'B', img: "../../../ELEMENTOS/IMG_juegos/barco.webp", info: '💡 **Letra B:** ¡El **Barco** viaja por grandes océanos!' },
+        { full: 'BUHO', missing: 'B', img: "../../../ELEMENTOS/IMG_juegos/buho.webp", info: '💡 **Letra B:** ¡El **Búho** puede ver muy bien en la noche!' },
+        // C
+        { full: 'CASA', missing: 'C', img: "../../../ELEMENTOS/IMG_juegos/casa.webp", info: '💡 **Letra C:** ¡La **Casa** nos protege del viento y la lluvia!' },
+        { full: 'CAMELLO', missing: 'C', img: "../../../ELEMENTOS/IMG_juegos/camello.webp", info: '💡 **Letra C:** ¡El **Camello** puede caminar días en el desierto!' },
+        // D
+        { full: 'DADO', missing: 'D', img: "../../../ELEMENTOS/IMG_juegos/dado.webp", info: '💡 **Letra D:** ¡Los **Dados** sirven para jugar en equipo!' },
+        { full: 'DELFIN', missing: 'D', img: "../../../ELEMENTOS/IMG_juegos/delfin.webp", info: '💡 **Letra D:** ¡El **Delfín** es muy inteligente y le gusta saltar!' },
+        // E
+        { full: 'ESTRELLA', missing: 'E', img: "../../../ELEMENTOS/IMG_juegos/estrellas.webp", info: '💡 **Letra E:** ¡Las **Estrellas** brillan en el cielo nocturno!' },
+        { full: 'ELEFANTE', missing: 'E', img: "../../../ELEMENTOS/IMG_juegos/elefante.webp", info: '💡 **Letra E:** ¡El **Elefante** tiene orejas y trompa gigantes!' },
+        // F
+        { full: 'FUEGO', missing: 'F', img: "../../../ELEMENTOS/IMG_juegos/fuego.webp", info: '💡 **Letra F:** ¡El **Fuego** nos da calor en las noches heladas!' },
+        { full: 'FOCA', missing: 'F', img: "../../../ELEMENTOS/IMG_juegos/foca.webp", info: '💡 **Letra F:** ¡Las **Focas** son excelentes nadadoras!' },
+        // G
+        { full: 'GATO', missing: 'G', img: "../../../ELEMENTOS/IMG_juegos/gato.webp", info: '💡 **Letra G:** ¡Los **Gatos** usan sus bigotes para medir espacios!' },
+        { full: 'GORILA', missing: 'G', img: "../../../ELEMENTOS/IMG_juegos/gorila.webp", info: '💡 **Letra G:** ¡El **Gorila** es fuerte pero prefiere comer plantas!' },
+        // H
+        { full: 'HELADO', missing: 'H', img: "../../../ELEMENTOS/IMG_juegos/helado.webp", info: '💡 **Letra H:** ¡La **H** no suena, pero el **Helado** es fresco y rico!' },
+        { full: 'HOJA', missing: 'H', img: "../../../ELEMENTOS/IMG_juegos/hoja.webp", info: '💡 **Letra H:** ¡Las **Hojas** caen de los árboles en otoño!' },
+        // I
+        { full: 'ISLA', missing: 'I', img: "../../../ELEMENTOS/IMG_juegos/isla_11zon.webp", info: '💡 **Letra I:** Una **Isla** es tierra rodeada por el mar.' },
+        { full: 'IGLU', missing: 'I', img: "../../../ELEMENTOS/IMG_juegos/iglu_11zon.webp", info: '💡 **Letra I:** Un **Iglú** es una casita hecha de bloques de hielo.' },
+        // J
+        { full: 'JIRAFA', missing: 'J', img: "../../../ELEMENTOS/IMG_juegos/jirafa_11zon.webp", info: '💡 **Letra J:** ¡La **Jirafa** alcanza las hojas más altas!' },
+        { full: 'JABON', missing: 'J', img: "../../../ELEMENTOS/IMG_juegos/jabon_11zon.webp", info: '💡 **Letra J:** ¡El **Jabón** limpia tus manos de las bacterias!' },
+        // K
+        { full: 'KOALA', missing: 'K', img: "../../../ELEMENTOS/IMG_juegos/koala_11zon.webp", info: '💡 **Letra K:** ¡El **Koala** adora dormir muchas horas en los árboles!' },
+        { full: 'KIWI', missing: 'K', img: "../../../ELEMENTOS/IMG_juegos/kiwi_11zon.webp", info: '💡 **Letra K:** El **Kiwi** es una fruta verde y ácida.' },
+        // L
+        { full: 'LEON', missing: 'L', img: "../../../ELEMENTOS/IMG_juegos/leon_11zon.webp", info: '💡 **Letra L:** ¡El **León** ruge tan fuerte que se oye de lejos!' },
+        { full: 'LUNA', missing: 'L', img: "../../../ELEMENTOS/IMG_juegos/luna_11zon.webp", info: '💡 **Letra L:** ¡La **Luna** ilumina la noche en el cielo!' },
+        // M
+        { full: 'MONO', missing: 'M', img: "../../../ELEMENTOS/IMG_juegos/mono_11zon.webp", info: '💡 **Letra M:** ¡Al **Mono** le encanta saltar entre las ramas!' },
+        { full: 'MANZANA', missing: 'M', img: "../../../ELEMENTOS/IMG_juegos/manzana_11zon.webp", info: '💡 **Letra M:** La **Manzana** es una fruta jugosa y saludable.' },
+        // N
+        { full: 'NUBE', missing: 'N', img: "../../../ELEMENTOS/IMG_juegos/nube_11zon.webp", info: '💡 **Letra N:** ¡Las **Nubes** están hechas de pequeñas gotas de agua!' },
+        { full: 'NIDO', missing: 'N', img: "../../../ELEMENTOS/IMG_juegos/nido_11zon.webp", info: '💡 **Letra N:** En el **Nido** los pajaritos cuidan a sus huevitos.' },
+        // O
+        { full: 'OSO', missing: 'O', img: "../../../ELEMENTOS/IMG_juegos/oso_11zon.webp", info: '💡 **Letra O:** ¡El **Oso** duerme mucho durante el invierno!' },
+        { full: 'OVEJA', missing: 'O', img: "../../../ELEMENTOS/IMG_juegos/oveja_11zon.webp", info: '💡 **Letra O:** ¡La lana de la **Oveja** abriga mucho en invierno!' },
+        // P
+        { full: 'PERRO', missing: 'P', img: "../../../ELEMENTOS/IMG_juegos/perro_11zon.webp", info: '💡 **Letra P:** ¡El **Perro** es un fiel amigo de la familia!' },
+        { full: 'PINGUINO', missing: 'P', img: "../../../ELEMENTOS/IMG_juegos/pinguino_11zon.webp", info: '💡 **Letra P:** ¡El **Pingüino** no vuela pero nada genial!' },
+        // Q
+        { full: 'QUESO', missing: 'Q', img: "../../../ELEMENTOS/IMG_juegos/queso_11zon.webp", info: '💡 **Letra Q:** ¡El **Queso** se hace con la leche de vaca!' },
+        // R
+        { full: 'RATON', missing: 'R', img: "../../../ELEMENTOS/IMG_juegos/raton_11zon.webp", info: '💡 **Letra R:** ¡El **Ratón** corre rápido y le gusta el queso!' },
+        { full: 'ROSA', missing: 'R', img: "../../../ELEMENTOS/IMG_juegos/rosa_11zon.webp", info: '💡 **Letra R:** La **Rosa** es una flor con un aroma dulce.' },
+        // S
+        { full: 'SOL', missing: 'S', img: "../../../ELEMENTOS/IMG_juegos/sol_11zon.webp", info: '💡 **Letra S:** ¡El **Sol** nos regala su luz y su calor!' },
+        { full: 'SERPIENTE', missing: 'S', img: "../../../ELEMENTOS/IMG_juegos/serpiente_11zon.webp", info: '💡 **Letra S:** La **Serpiente** se desliza suavemente sobre la tierra.' },
+        // T
+        { full: 'TIGRE', missing: 'T', img: "../../../ELEMENTOS/IMG_juegos/tigre_11zon.webp", info: '💡 **Letra T:** ¡El **Tigre** tiene rayas únicas para camuflarse!' },
+        { full: 'TORTUGA', missing: 'T', img: "../../../ELEMENTOS/IMG_juegos/tortuga_11zon.webp", info: '💡 **Letra T:** La **Tortuga** lleva su casita en el caparazón.' },
+        // U
+        { full: 'UVA', missing: 'U', img: "../../../ELEMENTOS/IMG_juegos/uva_11zon.webp", info: '💡 **Letra U:** Las **Uvas** crecen en racimos en la vid.' },
+        { full: 'UNICORNIO', missing: 'U', img: "../../../ELEMENTOS/IMG_juegos/unicornio_11zon.webp", info: '💡 **Letra U:** El **Unicornio** es un animal mágico de fantasía.' },
+        // V
+        { full: 'VACA', missing: 'V', img: "../../../ELEMENTOS/IMG_juegos/vaca_11zon.webp", info: '💡 **Letra V:** ¡La **Vaca** produce la leche para el desayuno!' },
+        { full: 'VELA', missing: 'V', img: "../../../ELEMENTOS/IMG_juegos/vela_11zon.webp", info: '💡 **Letra V:** Una **Vela** ilumina los cumpleaños.' },
+        // W
+        { full: 'WIFI', missing: 'W', img: "../../../ELEMENTOS/IMG_juegos/wifi_11zon.webp", info: '💡 **Letra W:** El **Wi-Fi** conecta las computadoras sin cables.' },
+        // X
+        { full: 'XILOFONO', missing: 'X', img: "../../../ELEMENTOS/IMG_juegos/xilofono_11zon.webp", info: '💡 **Letra X:** ¡El **Xilófono** emite notas musicales de colores!' },
+        // Y
+        { full: 'YATE', missing: 'Y', img: "../../../ELEMENTOS/IMG_juegos/yate_11zon.webp", info: '💡 **Letra Y:** El **Yate** navega velozmente sobre el agua.' },
+        { full: 'YOGUR', missing: 'Y', img: "../../../ELEMENTOS/IMG_juegos/yogurt_11zon.webp", info: '💡 **Letra Y:** El **Yogur** ayuda a mantener tu pancita fuerte.' },
+        // Z
+        { full: 'ZORRO', missing: 'Z', img: "../../../ELEMENTOS/IMG_juegos/zorro_11zon.webp", info: '💡 **Letra Z:** ¡El **Zorro** es rápido, astuto y esponjoso!' },
+        { full: 'ZAPATO', missing: 'Z', img: "../../../ELEMENTOS/IMG_juegos/zapato_11zon.webp", info: '💡 **Letra Z:** Los **Zapatos** protegen tus pies al caminar.' }
+    ];
+
+    let currentIndex = 0;
+    let targetLetter = '';
+
+    function nextQuestion() {
+        currentIndex = (currentIndex + 1) % alphabetData.length;
+        initGame();
+    }
+
+    function initGame() {
+        const data = alphabetData[currentIndex];
+        targetLetter = data.missing;
+
+        const wordImage = document.getElementById('wordImage');
+        wordImage.src = data.img;
+
+        document.getElementById('message').innerText = '';
+        
+        const infoBox = document.getElementById('infoBox');
+        infoBox.style.display = 'none';
+        infoBox.innerHTML = '';
+
+        const wordContainer = document.getElementById('wordDisplay');
+        wordContainer.innerHTML = '';
+
+        // Corregido: divide respetando únicamente la primera aparición de la letra
+        const firstIndex = data.full.indexOf(targetLetter);
+        const partBefore = data.full.substring(0, firstIndex);
+        const partAfter = data.full.substring(firstIndex + 1);
+
+        if (partBefore) {
+            const span1 = document.createElement('span');
+            span1.innerText = partBefore;
+            wordContainer.appendChild(span1);
+        }
+
+        const dropZone = document.createElement('div');
+        dropZone.className = 'drop-zone';
+        dropZone.innerText = '?';
+        dropZone.ondragover = (e) => e.preventDefault();
+        dropZone.ondragenter = () => dropZone.classList.add('hovered');
+        dropZone.ondragleave = () => dropZone.classList.remove('hovered');
+        dropZone.ondrop = (e) => handleDrop(e, dropZone);
+
+        dropZone.onclick = () => handleMobileClick(dropZone);
+
+        wordContainer.appendChild(dropZone);
+
+        if (partAfter) {
+            const span2 = document.createElement('span');
+            span2.innerText = partAfter;
+            wordContainer.appendChild(span2);
+        }
+
+        generateOptions(targetLetter);
+    }
+
+    function generateOptions(correct) {
+        const optionsContainer = document.getElementById('optionsContainer');
+        optionsContainer.innerHTML = '';
+
+        const allLetters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.replace(correct, '').split('');
+        const shuffled = allLetters.sort(() => Math.random() - 0.5);
+        const options = [correct, shuffled[0], shuffled[1]].sort(() => Math.random() - 0.5);
+
+        options.forEach(letter => {
+            const letterEl = document.createElement('div');
+            letterEl.className = 'draggable-letter';
+            letterEl.innerText = letter;
+            letterEl.draggable = true;
+
+            letterEl.ondragstart = (e) => {
+                e.dataTransfer.setData('text/plain', letter);
+            };
+
+            letterEl.onclick = () => {
+                document.querySelectorAll('.draggable-letter').forEach(el => el.style.outline = 'none');
+                letterEl.style.outline = '4px solid #ffeb3b';
+                window.selectedLetter = letter;
+            };
+
+            optionsContainer.appendChild(letterEl);
+        });
+    }
+
+    function handleDrop(e, zone) {
+        e.preventDefault();
+        zone.classList.remove('hovered');
+        const letter = e.dataTransfer.getData('text/plain');
+        checkAnswer(letter, zone);
+    }
+
+    function handleMobileClick(zone) {
+        if (window.selectedLetter) {
+            checkAnswer(window.selectedLetter, zone);
+            window.selectedLetter = null;
+        }
+    }
+
+    function checkAnswer(letter, zone) {
+        if (letter === targetLetter) {
+            zone.innerText = letter;
+            zone.className = 'drop-zone filled';
+
+            document.getElementById('message').innerText = '🎉 ¡Excelente! ¡Palabra completa!';
+
+            const data = alphabetData[currentIndex];
+            const infoBox = document.getElementById('infoBox');
+            infoBox.innerHTML = data.info.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            infoBox.style.display = 'block';
+        } else {
+            document.getElementById('message').innerText = '😅 ¡Casi! Intenta con otra letra.';
+            document.getElementById('message').style.color = '#d32f2f';
+            setTimeout(() => {
+                document.getElementById('message').style.color = '#2e7d32';
+            }, 1500);
+        }
+    }
+
+    initGame();
+</script>
+    
+
+</body>
+</html>

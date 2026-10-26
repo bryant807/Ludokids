@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Números - LudoKids</title>
+    <link rel="stylesheet" href="../../../CSS/Index.css">
+    <style>
+        .area-conteo {
+            background-color: #f0fdf4;
+            border: 3px dashed var(--verde, #c2f6b0);
+            border-radius: 20px;
+            min-height: 160px;
+            max-height: 250px;
+            overflow-y: auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 450px;
+        }
+
+        .item-icono {
+            font-size: 2.2rem;
+            animation: popIn 0.3s ease;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0); }
+            80% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .opciones-numeros {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            max-width: 480px;
+            max-height: 220px;
+            overflow-y: auto;
+            margin: 0 auto;
+            padding: 5px;
+        }
+
+        .btn-numero {
+            background-color: var(--naranja, #ffbe7a);
+            color: #000;
+            border: 2px solid #e08b27;
+            font-size: 1.2rem;
+            font-weight: bold;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn-numero:hover {
+            transform: scale(1.15);
+            background-color: var(--verde, #c2f6b0);
+            border-color: #8ed676;
+        }
+
+        .btn-numero.correct {
+            background-color: var(--verde, #c2f6b0);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body class="juego-animales-body">
+
+<div class="game-container">
+    <button class="back-btn" onclick="window.history.back()" title="Volver">⬅</button>
+
+    <h1> Contando con LudoKids </h1>
+
+    <div class="level-selector">
+        <button class="level-btn active" onclick="changeLevel('facil', this)">Fácil (1-10)</button>
+        <button class="level-btn" onclick="changeLevel('dificil', this)">Difícil (1-20)</button>
+    </div>
+
+    <div class="animal-title" id="gameSubtitle">¿Cuántos objetos ves en la caja?</div>
+
+    <div class="area-conteo" id="areaConteo">
+        <!-- Los objetos se generan dinámicamente -->
+    </div>
+
+    <div class="opciones-numeros" id="opcionesNumeros">
+        <!-- Botones dinámicos según el nivel -->
+    </div>
+
+    <div class="message" id="message"></div>
+
+    <button class="action-btn" onclick="initGame()">¡Siguiente Pregunta!</button>
+</div>
+
+<script>
+    const iconos = ['🍎', '⭐', '🎈', '🐶', '🚗', '🐱', '🍦', '🐥', '🍬', '🚀'];
+    
+    const levelsConfig = {
+        'facil': { max: 10 },
+        'dificil': { max: 20 }
+    };
+
+    let currentLevel = 'facil';
+    let numeroCorrecto = 0;
+
+    function changeLevel(levelKey, btnElement) {
+        currentLevel = levelKey;
+        
+        const buttons = document.querySelectorAll('.level-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        btnElement.classList.add('active');
+
+        initGame();
+    }
+
+    function initGame() {
+        const areaConteo = document.getElementById('areaConteo');
+        const opcionesNumeros = document.getElementById('opcionesNumeros');
+        const message = document.getElementById('message');
+
+        areaConteo.innerHTML = '';
+        opcionesNumeros.innerHTML = '';
+        message.innerText = '';
+
+        const maxNum = levelsConfig[currentLevel].max;
+        numeroCorrecto = Math.floor(Math.random() * maxNum) + 1;
+        const iconoSeleccionado = iconos[Math.floor(Math.random() * iconos.length)];
+
+        // Dibujar objetos
+        for (let i = 0; i < numeroCorrecto; i++) {
+            const span = document.createElement('span');
+            span.className = 'item-icono';
+            span.textContent = iconoSeleccionado;
+            areaConteo.appendChild(span);
+        }
+
+        // Crear botones numéricos
+        for (let i = 1; i <= maxNum; i++) {
+            const btn = document.createElement('button');
+            btn.className = 'btn-numero';
+            btn.textContent = i;
+            btn.onclick = () => verificarRespuesta(i, btn);
+            opcionesNumeros.appendChild(btn);
+        }
+    }
+
+    function verificarRespuesta(numeroSeleccionado, btnElement) {
+        const message = document.getElementById('message');
+
+        if (numeroSeleccionado === numeroCorrecto) {
+            btnElement.classList.add('correct');
+            message.innerText = '🎉 ¡Excelente! ¡Lo lograste!';
+        } else {
+            message.innerText = '❌ ¡Casi! Inténtalo de nuevo 💪';
+        }
+    }
+
+    // Iniciar juego al cargar
+    initGame();
+</script>
+
+</body>
+</html>
