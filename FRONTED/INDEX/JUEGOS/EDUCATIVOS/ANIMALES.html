@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mundo Animal - LudoKids</title>
+    <!-- Tailwind CSS desde CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'fredoka': ['"Fredoka One"', 'cursive', 'sans-serif'],
+                        'quicksand': ['Quicksand', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #a8e6cf 0%, #dbede3 50%, #ffd3b6 100%);
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .title-font {
+            font-family: 'Fredoka One', cursive;
+        }
+
+        .btn-bounce {
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .btn-bounce:hover {
+            transform: scale(1.08) rotate(-1deg);
+        }
+        .btn-bounce:active {
+            transform: scale(0.95);
+        }
+
+        .card-pop {
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.6) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .kid-card {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 2rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 4px solid #FFFFFF;
+        }
+
+        .hidden-screen {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-between p-3 md:p-6 overflow-x-hidden">
+
+    <!-- Encabezado / Barra superior -->
+    <header class="w-full max-w-4xl flex justify-between items-center bg-white/80 backdrop-blur-md p-4 rounded-3xl shadow-sm mb-4 border-2 border-white">
+        <a href="../../PRINCIPALES/Juegos.html" onclick="stopAudio()" class="btn-bounce bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 px-6 rounded-full flex items-center gap-2 text-xl shadow-md">
+            <i class="fas fa-home"></i> Inicio
+        </a> 
+
+        <button id="btnAudioToggle" onclick="toggleAudio()" class="btn-bounce bg-amber-600 hover:bg-amber-700 text-white p-3 rounded-full text-2xl shadow-md w-14 h-14 flex items-center justify-center">
+            <i id="audioIcon" class="fas fa-volume-up"></i>
+        </button>
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <main class="w-full max-w-4xl flex-grow flex items-center justify-center relative">
+
+        <!-- ==================== PANTALLA PRINCIPAL / MENÚ ==================== -->
+        <section id="screenMenu" class="w-full kid-card p-6 md:p-12 text-center card-pop">
+            <div class="inline-block bg-emerald-100 text-emerald-800 px-6 py-2 rounded-full font-bold text-base mb-4">
+                Herramienta de Apoyo Docente - LudoKids
+            </div>
+            <h1 class="title-font text-5xl md:text-7xl text-emerald-700 mb-4 tracking-wide">
+                El Mundo Animal
+            </h1>
+            <p class="text-gray-700 text-xl md:text-2xl font-medium mb-10">
+                Explore los animales, sus hábitats y datos curiosos para dinamizar su clase.
+            </p>
+
+            <!-- Selección de Niveles -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
+                
+                <!-- Nivel 1 -->
+                <button onclick="startLevel(1)" class="btn-bounce bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white p-6 rounded-3xl text-left shadow-lg border-2 border-emerald-200 flex items-center gap-4">
+                    <div class="bg-white p-3 rounded-2xl shadow-inner flex items-center justify-center w-16 h-16 overflow-hidden flex-shrink-0">
+                        <img src="../../../ELEMENTOS/IMG_juegos/gato.webp" alt="Gato" class="w-full h-full object-cover rounded-xl">
+                    </div>
+                    <div>
+                        <span class="text-xs font-extrabold uppercase tracking-wider text-emerald-100 block">Sección 1</span>
+                        <h3 class="title-font text-2xl text-white">Conócelos</h3>
+                        <p class="text-xs text-emerald-100 font-semibold">Información y datos</p>
+                    </div>
+                </button>
+
+                <!-- Nivel 2 -->
+                <button onclick="startLevel(2)" class="btn-bounce bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white p-6 rounded-3xl text-left shadow-lg border-2 border-amber-200 flex items-center gap-4">
+                    <div class="bg-white p-3 rounded-2xl shadow-inner flex items-center justify-center w-16 h-16 overflow-hidden flex-shrink-0">
+                        <img src="../../../ELEMENTOS/IMG_juegos/elefante_R_11zon.webp" alt="Elefante" class="w-full h-full object-cover rounded-xl">
+                    </div>
+                    <div>
+                        <span class="text-xs font-extrabold uppercase tracking-wider text-amber-100 block">Sección 2</span>
+                        <h3 class="title-font text-2xl text-white">¿Dónde Vivo?</h3>
+                        <p class="text-xs text-amber-100 font-semibold">Hábitats naturales</p>
+                    </div>
+                </button>
+
+                <!-- Nivel 3 -->
+                <button onclick="startLevel(3)" class="btn-bounce bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700 text-white p-6 rounded-3xl text-left shadow-lg border-2 border-sky-200 flex items-center gap-4">
+                    <div class="bg-white p-3 rounded-2xl shadow-inner flex items-center justify-center w-16 h-16 overflow-hidden flex-shrink-0">
+                        <img src="../../../ELEMENTOS/IMG_juegos/jirafa_11zon.webp" alt="Jirafa" class="w-full h-full object-cover rounded-xl">
+                    </div>
+                    <div>
+                        <span class="text-xs font-extrabold uppercase tracking-wider text-sky-100 block">Sección 3</span>
+                        <h3 class="title-font text-2xl text-white">Actividad Quiz</h3>
+                        <p class="text-xs text-sky-100 font-semibold">Preguntas guiadas</p>
+                    </div>
+                </button>
+
+            </div>
+        </section>
+
+        <!-- ==================== NIVEL 1: EXPLORA LOS ANIMALES ==================== -->
+        <section id="screenLevel1" class="w-full kid-card p-6 md:p-10 text-center hidden-screen card-pop">
+            <h2 class="title-font text-3xl md:text-4xl text-emerald-700 mb-2">Conoce los Animales</h2>
+            <p class="text-gray-700 mb-6 text-lg font-medium">Seleccione cualquier animal para visualizar su información y datos curiosos en clase</p>
+
+            <div class="grid grid-cols-3 sm:grid-cols-5 gap-3 mb-6 max-w-2xl mx-auto" id="animalsGrid"></div>
+
+            <div id="animalDisplay" class="bg-emerald-50 rounded-3xl p-6 md:p-8 border-4 border-emerald-200 flex flex-col md:flex-row items-center justify-around gap-6"></div>
+
+            <div class="mt-8 flex justify-between">
+                <button onclick="goToMenu()" class="btn-bounce bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-2xl text-lg">
+                    <i class="fas fa-arrow-left"></i> Volver al Menú
+                </button>
+                <button onclick="startLevel(2)" class="btn-bounce bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded-2xl text-lg shadow-md">
+                    Siguiente: Hábitats <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ==================== NIVEL 2: ¿DÓNDE VIVO? (HÁBITATS) ==================== -->
+        <section id="screenLevel2" class="w-full kid-card p-6 md:p-10 text-center hidden-screen card-pop">
+            <h2 class="title-font text-3xl md:text-4xl text-amber-700 mb-2">¿Dónde Vive este Animal?</h2>
+            <p class="text-gray-700 mb-4 text-lg font-medium">Pregunte a los estudiantes el hábitat correspondiente</p>
+
+            <div class="bg-amber-50 rounded-3xl p-6 border-4 border-amber-200 mb-6 flex flex-col items-center">
+                <div class="w-36 h-36 bg-white rounded-2xl shadow-md border-4 border-amber-300 overflow-hidden mb-3 flex items-center justify-center">
+                    <img id="habitatAnimalImg" src="" alt="Animal" class="w-full h-full object-cover">
+                </div>
+                <h3 id="habitatAnimalName" class="title-font text-4xl text-amber-800">Gato</h3>
+            </div>
+
+            <div id="habitatOptions" class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto mb-6"></div>
+
+            <div id="habitatFeedback" class="h-10 font-bold text-xl mb-4"></div>
+
+            <div class="flex justify-between items-center gap-2">
+                <button onclick="goToMenu()" class="btn-bounce bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-2xl text-lg">
+                    Volver al Menú
+                </button>
+                <button id="btnNextHabitat" onclick="loadRandomHabitatQuestion()" class="btn-bounce bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded-2xl text-lg shadow-md hidden">
+                    Siguiente animal <i class="fas fa-redo"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ==================== NIVEL 3: QUIZ ANIMAL ==================== -->
+        <section id="screenLevel3" class="w-full kid-card p-6 md:p-10 text-center hidden-screen card-pop">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-base font-bold bg-sky-100 text-sky-800 px-4 py-1.5 rounded-full">
+                    Pregunta <span id="quizCurrent">1</span> de 5
+                </span>
+                <span class="text-base font-bold text-sky-700">
+                    <span id="quizScore">0</span> Puntos
+                </span>
+            </div>
+
+            <h2 id="quizQuestionText" class="title-font text-3xl text-sky-700 mb-4">
+                Adivina el animal según su pista
+            </h2>
+
+            <div class="bg-sky-50 rounded-3xl p-6 mb-6 border-4 border-sky-200 flex flex-col items-center">
+                <div class="w-32 h-32 bg-white rounded-2xl shadow-md border-4 border-sky-300 flex items-center justify-center mb-3">
+                    <i class="fas fa-mask text-5xl text-sky-500"></i>
+                </div>
+                <p class="text-sky-800 font-bold text-sm uppercase tracking-wider mb-1">Pista misteriosa:</p>
+                <p id="quizClueText" class="text-gray-700 font-bold text-xl px-2">pista...</p>
+            </div>
+
+            <div id="quizOptions" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6"></div>
+
+            <div id="quizFeedback" class="h-10 font-bold text-xl mb-2"></div>
+
+            <div class="flex justify-between items-center mt-4">
+                <button onclick="goToMenu()" class="btn-bounce bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded-2xl text-lg">
+                    Volver al Menú
+                </button>
+                <button id="btnNextQuestion" onclick="nextQuizQuestion()" class="btn-bounce bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-6 rounded-2xl text-lg shadow-md hidden">
+                    Siguiente pregunta <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ==================== PANTALLA VICTORIA ==================== -->
+        <section id="screenWin" class="w-full kid-card p-10 text-center hidden-screen card-pop">
+            <h2 class="title-font text-4xl md:text-5xl text-emerald-700 mb-3">¡Actividad Completada con Éxito!</h2>
+            <p class="text-gray-700 text-xl mb-6">Se han superado todas las preguntas de la sección animal.</p>
+
+            <div class="bg-emerald-50 rounded-3xl p-6 border-2 border-emerald-200 mb-8 inline-block w-full max-w-sm">
+                <p class="text-gray-600 text-base font-bold mb-1">Puntuación alcanzada</p>
+                <p class="title-font text-6xl text-emerald-700 flex items-center justify-center gap-2">
+                    <span id="finalScore">0</span> Puntos
+                </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button onclick="goToMenu()" class="btn-bounce bg-teal-600 hover:bg-teal-700 text-white font-bold py-3.5 px-8 rounded-2xl text-lg shadow-md">
+                    Volver al Menú Principal
+                </button>
+                <button onclick="startLevel(3)" class="btn-bounce bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-8 rounded-2xl text-lg shadow-md">
+                    Reiniciar Actividad
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Pie de página -->
+    <footer class="w-full max-w-4xl text-center py-3 text-xs text-gray-600 font-semibold mt-4">
+        <p>LudoKids - Aprendizaje interactivo para niños preescolares</p>
+        <nav class="mt-2 flex justify-center gap-4" aria-label="Información legal">
+            <a class="text-blue-700 underline hover:text-blue-900" href="../../FOOTER_INDEX/Politicas.html">Política de privacidad</a>
+            <a class="text-blue-700 underline hover:text-blue-900" href="../../FOOTER_INDEX/Nosotros.html">Sobre nosotros</a>
+        </nav>
+    </footer>
+
+    <!-- SCRIPT PRINCIPAL -->
+    <script>
+        const ANIMALS_DATA = [
+            { id: "gato", name: "Gato", url: "../../../ELEMENTOS/IMG_juegos/gato.webp", habitat: "Casa", habitatKey: "granja", fact: "Los gatos pueden saltar hasta seis veces su tamaño y usan sus bigotes para medir los espacios." },
+            { id: "conejo", name: "Conejo", url: "../../../ELEMENTOS/IMG_juegos/conejo_R_11zon.webp", habitat: "Campo o Madriguera", habitatKey: "bosque", fact: "A los conejos les crecen los dientes durante toda su vida y brincan cuando estan alegres." },
+            { id: "zorro", name: "Zorro", url: "../../../ELEMENTOS/IMG_juegos/zorro_11zon.webp", habitat: "Bosque", habitatKey: "bosque", fact: "Los zorros usan su gran cola como una cobija para abrigarse durante las noches frias." },
+            { id: "elefante", name: "Elefante", url: "../../../ELEMENTOS/IMG_juegos/elefante_R_11zon.webp", habitat: "Selva o Sabana", habitatKey: "sabana", fact: "Los elefantes usan su larga trompa para respirar, agarrar objetos y bañarse con agua." },
+            { id: "delfin", name: "Delfín", url: "../../../ELEMENTOS/IMG_juegos/delfin.webp", habitat: "Océano", habitatKey: "agua", fact: "Los delfines son animales marinos muy inteligentes que se comunican mediante silbidos." },
+            { id: "gorila", name: "Gorila", url: "../../../ELEMENTOS/IMG_juegos/gorila.webp", habitat: "Selva", habitatKey: "selva", fact: "Los gorilas comparten una gran cantidad de su ADN con los humanos y viven en grupos familiares." },
+            { id: "foca", name: "Foca", url: "../../../ELEMENTOS/IMG_juegos/foca.webp", habitat: "Océano o Hielo", habitatKey: "agua", fact: "Las focas tienen una gruesa capa de grasa bajo su piel que las protege de las aguas heladas." },
+            { id: "jirafa", name: "Jirafa", url: "../../../ELEMENTOS/IMG_juegos/jirafa_11zon.webp", habitat: "Sabana", habitatKey: "sabana", fact: "Las jirafas tienen un cuello muy largo que les permite alcanzar las hojas mas altas de los arboles." },
+            { id: "abeja", name: "Abeja", url: "../../../ELEMENTOS/IMG_juegos/abeja.webp", habitat: "Praderas y Flores", habitatKey: "bosque", fact: "Las abejas vuelan de flor en flor recolectando nectar para producir la deliciosa miel." },
+            { id: "perro", name: "Perro", url: "../../../ELEMENTOS/IMG_juegos/perro_R_11zon.webp", habitat: "Casa", habitatKey: "granja", fact: "Los perros tienen un olfato muchísimo más fuerte que el nuestro y mueven la cola para mostrar que están contentos." },
+            { id: "raton", name: "Ratón", url: "../../../ELEMENTOS/IMG_juegos/raton_11zon.webp", habitat: "Casa o Granero", habitatKey: "granja", fact: "Los ratones tienen los dientes de adelante siempre creciendo, por eso mordisquean cosas duras para desgastarlos." },
+            { id: "oveja", name: "Oveja", url: "../../../ELEMENTOS/IMG_juegos/oveja_11zon.webp", habitat: "Granja", habitatKey: "granja", fact: "Las ovejas nos dan lana para hacer abrigos y cobijas, y pueden recordar las caras de sus compañeras del rebaño." },
+            { id: "vaca", name: "Vaca", url: "../../../ELEMENTOS/IMG_juegos/vaca_11zon.webp", habitat: "Granja", habitatKey: "granja", fact: "Las vacas nos dan leche y pasan muchas horas del día comiendo y masticando pasto." },
+            { id: "buho", name: "Búho", url: "../../../ELEMENTOS/IMG_juegos/buho.webp", habitat: "Bosque", habitatKey: "bosque", fact: "Los búhos pueden girar la cabeza casi hasta dar la vuelta completa y ven muy bien en la oscuridad de la noche." },
+            { id: "oso", name: "Oso", url: "../../../ELEMENTOS/IMG_juegos/oso_11zon.webp", habitat: "Bosque", habitatKey: "bosque", fact: "Los osos tienen un olfato muy fino y algunos pasan el invierno dormidos en su cueva para ahorrar energía." },
+            { id: "tigre", name: "Tigre", url: "../../../ELEMENTOS/IMG_juegos/tigre_11zon.webp", habitat: "Selva", habitatKey: "selva", fact: "Cada tigre tiene rayas diferentes, como si fueran sus huellas, y a diferencia de muchos felinos le gusta nadar." },
+            { id: "leon", name: "León", url: "../../../ELEMENTOS/IMG_juegos/leon_11zon.webp", habitat: "Sabana", habitatKey: "sabana", fact: "El rugido del león se puede escuchar a varios kilómetros de distancia y los leones viven en familias llamadas manadas." },
+            { id: "mono", name: "Mono", url: "../../../ELEMENTOS/IMG_juegos/mono_11zon.webp", habitat: "Selva", habitatKey: "selva", fact: "Los monos usan sus manos para agarrar frutas y trepar, y viven en grupos donde se cuidan unos a otros." },
+            { id: "camello", name: "Camello", url: "../../../ELEMENTOS/IMG_juegos/camello.webp", habitat: "Desierto", habitatKey: "desierto", fact: "Los camellos guardan grasa en sus jorobas, y eso les permite pasar muchos días sin comer en el desierto." },
+            { id: "koala", name: "Koala", url: "../../../ELEMENTOS/IMG_juegos/koala_11zon.webp", habitat: "Bosque de Eucaliptos", habitatKey: "bosque", fact: "Los koalas duermen casi todo el día y se alimentan de hojas de eucalipto." },
+            { id: "panda", name: "Panda", url: "../../../ELEMENTOS/IMG_juegos/panda_R_11zon.webp", habitat: "Bosque de Bambú", habitatKey: "bosque", fact: "Los pandas gigantes pasan gran parte del día comiendo bambú." },
+            { id: "ballena", name: "Ballena", url: "../../../ELEMENTOS/IMG_juegos/ballena_R.webp", habitat: "Océano", habitatKey: "agua", fact: "Las ballenas no son peces, son mamíferos que respiran aire por un agujero que tienen en la cabeza." },
+            { id: "serpiente", name: "Serpiente", url: "../../../ELEMENTOS/IMG_juegos/serpiente_11zon.webp", habitat: "Campo y Bosque", habitatKey: "bosque", fact: "Las serpientes no tienen patas, se mueven arrastrándose y cambian su piel varias veces en su vida." },
+            { id: "tortuga", name: "Tortuga", url: "../../../ELEMENTOS/IMG_juegos/tortuga_11zon.webp", habitat: "Campo", habitatKey: "bosque", fact: "Las tortugas llevan su caparazón como una casa y algunas pueden vivir más de cien años." },
+            { id: "pinguino", name: "Pingüino", url: "../../../ELEMENTOS/IMG_juegos/pinguino_11zon.webp", habitat: "Hielo y Océano", habitatKey: "agua", fact: "Los pingüinos son aves que no pueden volar, pero nadan muy rápido usando sus alas como aletas." }
+        ];
+
+        const HABITATS_DATA = [
+            { key: "sabana", name: "Sabana" },
+            { key: "granja", name: "Casa o Granja" },
+            { key: "selva", name: "Selva" },
+            { key: "bosque", name: "Bosque o Campo" },
+            { key: "agua", name: "Río u Océano" },
+            { key: "desierto", name: "Desierto" }
+        ];
+
+        let audioEnabled = true;
+        let currentHabitatData = null;
+        let currentQuizIndex = 0;
+        let currentQuizAnimal = null;
+        let quizScore = 0;
+        let isProcessingClick = false;
+
+        const synth = window.speechSynthesis;
+
+        function stopAudio() {
+            if (synth) synth.cancel();
+        }
+
+        function playSound(type) {
+            if (!audioEnabled) return;
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                if (type === 'click') {
+                    osc.frequency.value = 600;
+                    gain.gain.setValueAtTime(0.1, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.08);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.08);
+                } else if (type === 'correct') {
+                    osc.frequency.value = 523.25;
+                    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                    osc.start();
+                    osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+                    osc.stop(ctx.currentTime + 0.3);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.value = 180;
+                    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.25);
+                }
+            } catch (e) {}
+        }
+
+        function speak(text) {
+            if (!audioEnabled || !synth) return;
+            synth.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'es-ES';
+            utterance.rate = 0.85;
+            utterance.pitch = 1.1;
+            synth.speak(utterance);
+        }
+
+        function toggleAudio() {
+            audioEnabled = !audioEnabled;
+            const icon = document.getElementById('audioIcon');
+            if (audioEnabled) {
+                icon.className = 'fas fa-volume-up';
+                speak('Sonido activado');
+            } else {
+                icon.className = 'fas fa-volume-mute';
+                stopAudio();
+            }
+        }
+
+        function hideAllScreens() {
+            stopAudio();
+            document.querySelectorAll('main > section').forEach(sec => {
+                sec.classList.add('hidden-screen');
+            });
+        }
+
+        function goToMenu() {
+            stopAudio();
+            playSound('click');
+            hideAllScreens();
+            document.getElementById('screenMenu').classList.remove('hidden-screen');
+        }
+
+        function startLevel(levelNum) {
+            stopAudio();
+            playSound('click');
+            hideAllScreens();
+
+            if (levelNum === 1) {
+                document.getElementById('screenLevel1').classList.remove('hidden-screen');
+                initLevel1();
+            } else if (levelNum === 2) {
+                document.getElementById('screenLevel2').classList.remove('hidden-screen');
+                initLevel2();
+            } else if (levelNum === 3) {
+                document.getElementById('screenLevel3').classList.remove('hidden-screen');
+                initLevel3();
+            }
+        }
+
+        /* NIVEL 1: EXPLORAR ANIMALES */
+        function initLevel1() {
+            const grid = document.getElementById('animalsGrid');
+            grid.innerHTML = '';
+            ANIMALS_DATA.forEach((data, index) => {
+                const btn = document.createElement('button');
+                btn.className = `btn-bounce bg-emerald-100 hover:bg-emerald-200 p-2 rounded-2xl shadow-sm border-2 border-emerald-300 flex items-center justify-center w-24 h-24 overflow-hidden`;
+                btn.innerHTML = `<img src="${data.url}" alt="${data.name}" class="w-full h-full object-cover rounded-xl">`;
+                
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    selectAnimal(index);
+                });
+
+                grid.appendChild(btn);
+            });
+            renderAnimalDisplay(0);
+        }
+
+        function renderAnimalDisplay(index) {
+            const data = ANIMALS_DATA[index];
+            const display = document.getElementById('animalDisplay');
+
+            display.innerHTML = `
+                <div class="flex flex-col items-center">
+                    <div class="w-40 h-40 bg-white rounded-3xl shadow-md border-4 border-emerald-300 overflow-hidden mb-3 flex items-center justify-center p-2">
+                        <img src="${data.url}" alt="${data.name}" class="w-full h-full object-cover rounded-2xl">
+                    </div>
+                    <span class="text-3xl font-bold text-emerald-800 title-font">${data.name}</span>
+                </div>
+
+                <div class="text-left max-w-md space-y-3">
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-emerald-200">
+                        <span class="font-extrabold text-emerald-700 block text-sm uppercase">Hábitat:</span>
+                        <span class="text-gray-800 font-bold text-lg">${data.habitat}</span>
+                    </div>
+                    <div class="bg-white p-4 rounded-2xl shadow-sm border border-emerald-200">
+                        <span class="font-extrabold text-emerald-700 block text-sm uppercase">Dato curioso:</span>
+                        <span class="text-gray-700 text-base font-semibold">${data.fact}</span>
+                    </div>
+                    <button onclick="speak('${data.name}. Vive en ${data.habitat}. ${data.fact}')" class="btn-bounce bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-6 rounded-full text-base shadow flex items-center gap-2 mt-2">
+                        <i class="fas fa-volume-up"></i> Reproducir audio de explicación
+                    </button>
+                </div>
+            `;
+        }
+
+        function selectAnimal(index) {
+            if (isProcessingClick) return;
+            isProcessingClick = true;
+
+            playSound('click');
+            const data = ANIMALS_DATA[index];
+            renderAnimalDisplay(index);
+            speak(`${data.name}`);
+
+            setTimeout(() => {
+                isProcessingClick = false;
+            }, 400);
+        }
+
+        /* NIVEL 2: HÁBITATS */
+        function initLevel2() {
+            loadRandomHabitatQuestion();
+        }
+
+        function loadRandomHabitatQuestion() {
+            stopAudio();
+
+            const randomAnimal = ANIMALS_DATA[Math.floor(Math.random() * ANIMALS_DATA.length)];
+            currentHabitatData = randomAnimal;
+
+            document.getElementById('habitatAnimalImg').src = randomAnimal.url;
+            document.getElementById('habitatAnimalName').innerText = randomAnimal.name;
+
+            const correctHabitatObj = HABITATS_DATA.find(h => h.key === randomAnimal.habitatKey);
+
+            let wrongOptions = HABITATS_DATA.filter(h => h.key !== randomAnimal.habitatKey);
+            wrongOptions = wrongOptions.sort(() => Math.random() - 0.5).slice(0, 2);
+
+            let options = [correctHabitatObj, ...wrongOptions].sort(() => Math.random() - 0.5);
+
+            const optionsContainer = document.getElementById('habitatOptions');
+            const feedback = document.getElementById('habitatFeedback');
+
+            feedback.innerHTML = '';
+            document.getElementById('btnNextHabitat').classList.add('hidden');
+
+            optionsContainer.innerHTML = '';
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = `btn-bounce bg-white hover:bg-amber-100 text-amber-900 border-4 border-amber-300 title-font text-2xl p-5 rounded-2xl shadow-md flex items-center justify-center gap-2`;
+                btn.innerText = opt.name;
+                btn.onclick = () => checkHabitatAnswer(opt.key, btn);
+                optionsContainer.appendChild(btn);
+            });
+
+            speak(`¿Dónde vive este animal?`);
+        }
+
+        function checkHabitatAnswer(selectedKey, buttonEl) {
+            const feedback = document.getElementById('habitatFeedback');
+            const allBtns = document.querySelectorAll('#habitatOptions button');
+
+            allBtns.forEach(btn => btn.disabled = true);
+
+            if (selectedKey === currentHabitatData.habitatKey) {
+                playSound('correct');
+                buttonEl.classList.add('bg-amber-600', 'text-white');
+                feedback.innerHTML = `<span class="text-amber-700 font-bold text-xl">¡Correcto! El ${currentHabitatData.name} vive en ${currentHabitatData.habitat}</span>`;
+                speak(`¡Muy bien! El ${currentHabitatData.name} vive en ${currentHabitatData.habitat}`);
+            } else {
+                playSound('wrong');
+                buttonEl.classList.add('bg-rose-400', 'text-white');
+                feedback.innerHTML = `<span class="text-rose-600 font-bold text-xl">Incorrecto. Su hábitat es ${currentHabitatData.habitat}</span>`;
+                speak(`Incorrecto. Su hábitat es ${currentHabitatData.habitat}`);
+            }
+
+            document.getElementById('btnNextHabitat').classList.add('hidden'); // Corregido para mostrar botón siguiente
+            document.getElementById('btnNextHabitat').classList.remove('hidden');
+        }
+
+        /* NIVEL 3: QUIZ ANIMAL (CORREGIDO PARA PLURALES Y LETRAS SOBRANTES) */
+        function initLevel3() {
+            currentQuizIndex = 0;
+            quizScore = 0;
+            document.getElementById('quizScore').innerText = quizScore;
+            loadRandomQuizQuestion();
+        }
+
+        function loadRandomQuizQuestion() {
+            stopAudio();
+            document.getElementById('quizCurrent').innerText = currentQuizIndex + 1;
+            document.getElementById('quizFeedback').innerHTML = '';
+            document.getElementById('btnNextQuestion').classList.add('hidden');
+
+            const randomAnimal = ANIMALS_DATA[Math.floor(Math.random() * ANIMALS_DATA.length)];
+            currentQuizAnimal = randomAnimal;
+
+            let maskedFact = randomAnimal.fact;
+            
+            // 1. Reemplazamos variaciones en plural terminadas en "s" o "es" (ej: "los zorros", "las focas") incluyendo la letra 's' o 'es' extra para que no quede volando
+            const nameBase = randomAnimal.name.toLowerCase();
+            const pluralRegex1 = new RegExp("los\\s+" + nameBase + "s", "gi");
+            const pluralRegex2 = new RegExp("las\\s+" + nameBase + "s", "gi");
+            const pluralRegex3 = new RegExp(nameBase + "s", "gi");
+
+            maskedFact = maskedFact.replace(pluralRegex1, "________");
+            maskedFact = maskedFact.replace(pluralRegex2, "________");
+            maskedFact = maskedFact.replace(pluralRegex3, "________");
+
+            // 2. Reemplazamos el nombre exacto singular por los guiones
+            const singularRegex = new RegExp(randomAnimal.name, "gi");
+            maskedFact = maskedFact.replace(singularRegex, "________");
+
+            document.getElementById('quizClueText').innerText = maskedFact;
+
+            let wrongOptions = ANIMALS_DATA.filter(a => a.id !== randomAnimal.id);
+            wrongOptions = wrongOptions.sort(() => Math.random() - 0.5).slice(0, 3);
+
+            let options = [randomAnimal, ...wrongOptions].sort(() => Math.random() - 0.5);
+
+            const optionsContainer = document.getElementById('quizOptions');
+            optionsContainer.innerHTML = '';
+
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = `btn-bounce bg-white hover:bg-sky-100 text-sky-900 border-4 border-sky-300 title-font text-xl p-4 rounded-2xl shadow-md flex flex-col items-center`;
+                btn.innerHTML = `<div class="w-20 h-20 rounded-xl overflow-hidden mb-2"><img src="${opt.url}" class="w-full h-full object-cover"></div><span class="text-base font-bold">${opt.name}</span>`;
+                btn.onclick = () => checkQuizAnswer(opt.id, btn);
+                optionsContainer.appendChild(btn);
+            });
+
+            speak("¿A qué animal corresponde esta descripción?");
+        }
+
+        function checkQuizAnswer(selectedId, buttonEl) {
+            const feedback = document.getElementById('quizFeedback');
+            const allBtns = document.querySelectorAll('#quizOptions button');
+
+            allBtns.forEach(btn => btn.disabled = true);
+
+            if (selectedId === currentQuizAnimal.id) {
+                playSound('correct');
+                buttonEl.classList.add('bg-sky-600', 'text-white');
+                feedback.innerHTML = `<span class="text-sky-700 font-bold text-xl">¡Correcto! Es el ${currentQuizAnimal.name}</span>`;
+                quizScore += 20;
+                document.getElementById('quizScore').innerText = quizScore;
+                speak(`¡Correcto! Es el ${currentQuizAnimal.name}`);
+            } else {
+                playSound('wrong');
+                buttonEl.classList.add('bg-rose-400', 'text-white');
+                feedback.innerHTML = `<span class="text-rose-600 font-bold text-xl">Incorrecto. Era el ${currentQuizAnimal.name}</span>`;
+                speak(`Incorrecto. Era el ${currentQuizAnimal.name}`);
+            }
+
+            document.getElementById('btnNextQuestion').classList.remove('hidden');
+        }
+
+        function nextQuizQuestion() {
+            stopAudio();
+            currentQuizIndex++;
+            if (currentQuizIndex < 5) {
+                loadRandomQuizQuestion();
+            } else {
+                showWinScreen();
+            }
+        }
+
+        function showWinScreen() {
+            stopAudio();
+            hideAllScreens();
+            document.getElementById('screenWin').classList.remove('hidden-screen');
+            document.getElementById('finalScore').innerText = quizScore;
+            playSound('correct');
+            speak(`Actividad completada con éxito. Puntuación total: ${quizScore} puntos.`);
+        }
+    </script>
+</body>
+</html>

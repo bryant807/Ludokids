@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aventura Numérica - LudoKids</title>
+    <!-- Tailwind CSS desde CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <!-- Google Fonts para tipografía infantil e interactiva -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'fredoka': ['"Fredoka One"', 'cursive', 'sans-serif'],
+                        'quicksand': ['Quicksand', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .title-font {
+            font-family: 'Fredoka One', cursive;
+        }
+
+        .btn-bounce {
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .btn-bounce:hover {
+            transform: scale(1.08) rotate(-1deg);
+        }
+        .btn-bounce:active {
+            transform: scale(0.95);
+        }
+
+        .card-pop {
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.6) translateY(20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .kid-card {
+            background: rgba(255, 255, 255, 0.96);
+            border-radius: 2rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 4px solid #FFFFFF;
+        }
+
+        .hidden-screen {
+            display: none !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-between p-3 md:p-6 overflow-x-hidden">
+
+    <!-- Encabezado / Barra superior de Navegación -->
+    <header class="w-full max-w-4xl flex justify-between items-center bg-white/80 backdrop-blur-md p-4 rounded-3xl shadow-sm mb-4 border-2 border-white">
+        <a href="../../PRINCIPALES/Juegos.html" onclick="stopAudio()" class="btn-bounce bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-5 rounded-full flex items-center gap-2 text-lg shadow-md">
+            <i class="fas fa-home"></i> Inicio
+        </a> 
+
+        <button id="btnAudioToggle" onclick="toggleAudio()" class="btn-bounce bg-violet-500 hover:bg-violet-600 text-white p-3 rounded-full text-xl shadow-md w-12 h-12 flex items-center justify-center">
+            <i id="audioIcon" class="fas fa-volume-up"></i>
+        </button>
+    </header>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <main class="w-full max-w-4xl flex-grow flex items-center justify-center relative">
+
+        <!-- ==================== PANTALLA PRINCIPAL / MENÚ ==================== -->
+        <section id="screenMenu" class="w-full kid-card p-6 md:p-10 text-center card-pop">
+            <div class="inline-block bg-orange-100 text-orange-600 px-4 py-1 rounded-full font-bold text-sm mb-2">
+                ¡Bienvenidos a LudoKids!
+            </div>
+            <h1 class="title-font text-4xl md:text-6xl text-violet-700 mb-3 tracking-wide">
+                Aventura Numérica 
+            </h1>
+            <p class="text-gray-600 text-lg md:text-xl font-medium mb-8">
+                ¡Aprende a contar y jugar con los números del 1 al 12!
+            </p>
+
+            <!-- Selección de Niveles -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-3xl mx-auto">
+                
+                <!-- Nivel 1 -->
+                <button onclick="startLevel(1)" class="btn-bounce bg-gradient-to-r from-orange-400 to-amber-500 hover:from-orange-500 hover:to-amber-600 text-white p-5 rounded-3xl text-left shadow-lg border-2 border-orange-200 flex items-center gap-4">
+                    <div class="bg-white p-4 rounded-2xl text-3xl shadow-inner text-orange-500 font-bold title-font">
+                        123
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-orange-100 block">Nivel 1</span>
+                        <h3 class="title-font text-2xl text-white">Los Números</h3>
+                        <p class="text-xs text-orange-100 font-semibold">Aprende del 1 al 12</p>
+                    </div>
+                </button>
+
+                <!-- Nivel 2 -->
+                <button onclick="startLevel(2)" class="btn-bounce bg-gradient-to-r from-teal-400 to-cyan-500 hover:from-teal-500 hover:to-cyan-600 text-white p-5 rounded-3xl text-left shadow-lg border-2 border-teal-200 flex items-center gap-4">
+                    <div class="bg-white p-4 rounded-2xl text-3xl shadow-inner text-teal-500 font-bold title-font">
+                        1, 2, ?
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-teal-100 block">Nivel 2</span>
+                        <h3 class="title-font text-2xl text-white">Secuencia</h3>
+                        <p class="text-xs text-teal-100 font-semibold">Adivina del 1 al 12</p>
+                    </div>
+                </button>
+
+                <!-- Nivel 3 -->
+                <button onclick="startLevel(3)" class="btn-bounce bg-gradient-to-r from-fuchsia-500 to-pink-500 hover:from-fuchsia-600 hover:to-pink-600 text-white p-5 rounded-3xl text-left shadow-lg border-2 border-fuchsia-200 flex items-center gap-4">
+                    <div class="bg-white p-4 rounded-2xl text-3xl shadow-inner text-fuchsia-500 font-bold title-font">
+                        🎯
+                    </div>
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-fuchsia-100 block">Nivel 3</span>
+                        <h3 class="title-font text-2xl text-white">Gran desafío</h3>
+                        <p class="text-xs text-fuchsia-100 font-semibold">¡Cuenta hasta el 12!</p>
+                    </div>
+                </button>
+
+            </div>
+        </section>
+
+        <!-- ==================== NIVEL 1: CONOCE LOS NÚMEROS ==================== -->
+        <section id="screenLevel1" class="w-full kid-card p-6 md:p-8 text-center hidden-screen card-pop">
+            <h2 class="title-font text-3xl text-orange-500 mb-2">Nivel 1: Conoce los Números </h2>
+            <p class="text-gray-600 mb-6 font-medium">Toca cualquier número para escucharlo y contar los objetos</p>
+
+            <div class="grid grid-cols-4 sm:grid-cols-6 gap-2 md:gap-3 mb-6 max-w-lg mx-auto" id="numberGrid"></div>
+
+            <div id="numberDisplay" class="bg-orange-50 rounded-3xl p-6 border-4 border-orange-200 flex flex-col md:flex-row items-center justify-around gap-6"></div>
+
+            <div class="mt-8 flex justify-between">
+                <button onclick="goToMenu()" class="btn-bounce bg-gray-200 text-gray-700 font-bold py-3 px-6 rounded-2xl">
+                    <i class="fas fa-arrow-left"></i> Volver atras
+                </button>
+                <button onclick="startLevel(2)" class="btn-bounce bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-6 rounded-2xl shadow-md">
+                    Siguiente: Secuencia <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ==================== NIVEL 2: SECUENCIA NUMÉRICA DEL 1 AL 12 ==================== -->
+        <section id="screenLevel2" class="w-full kid-card p-6 md:p-8 text-center hidden-screen card-pop">
+            <h2 class="title-font text-3xl text-teal-600 mb-2">Nivel 2: Secuencia numérica </h2>
+            <p class="text-gray-600 mb-6 font-medium">¿Qué número falta en la secuencia del 1 al 12?</p>
+
+            <div class="bg-teal-50 rounded-3xl p-8 border-4 border-teal-200 mb-6">
+                <div id="sequenceDisplay" class="flex justify-center items-center flex-wrap gap-3 text-3xl md:text-5xl font-bold title-font text-gray-800"></div>
+            </div>
+
+            <div id="sequenceOptions" class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-lg mx-auto mb-6"></div>
+
+            <div id="sequenceFeedback" class="h-8 font-bold text-lg mb-4"></div>
+
+            <div class="flex justify-between items-center gap-2">
+                <button onclick="goToMenu()" class="btn-bounce bg-gray-200 text-gray-700 font-bold py-2 px-5 rounded-2xl text-sm">
+                    Volver atras
+                </button>
+                <button id="btnNextSeq" onclick="loadRandomSequence()" class="btn-bounce bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-6 rounded-2xl shadow-md hidden">
+                    Otra secuencia 🔄
+                </button>
+            </div>
+        </section>
+
+        <!-- ==================== NIVEL 3: GRAN DESAFÍO ALEATORIO (1 AL 12) ==================== -->
+        <section id="screenLevel3" class="w-full kid-card p-6 md:p-8 text-center hidden-screen card-pop">
+            <div class="flex justify-between items-center mb-4">
+                <span class="text-sm font-bold bg-fuchsia-100 text-fuchsia-800 px-3 py-1 rounded-full">
+                    Pregunta <span id="quizCurrent">1</span> de 5
+                </span>
+                <span class="text-sm font-bold text-fuchsia-600 flex items-center gap-1">
+                    <span id="quizScore">0</span> Puntos
+                </span>
+            </div>
+
+            <h2 id="quizQuestionText" class="title-font text-2xl md:text-3xl text-fuchsia-600 mb-4">
+                ¿Cuántos objetos ves aquí?
+            </h2>
+
+            <div class="bg-fuchsia-50 rounded-3xl p-6 mb-6 border-4 border-fuchsia-200 flex flex-col items-center">
+                <div id="quizObjectsContainer" class="flex flex-wrap justify-center items-center gap-3 text-4xl p-4 min-h-[120px]"></div>
+            </div>
+
+            <div id="quizOptions" class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6"></div>
+
+            <div id="quizFeedback" class="h-8 font-bold text-lg mb-2"></div>
+
+            <div class="flex justify-between items-center mt-4">
+                <button onclick="goToMenu()" class="btn-bounce bg-gray-200 text-gray-700 font-bold py-2 px-5 rounded-2xl text-sm">
+                    Volver atras
+                </button>
+                <button id="btnNextQuestion" onclick="nextQuizQuestion()" class="btn-bounce bg-fuchsia-500 hover:bg-fuchsia-600 text-white font-bold py-3 px-6 rounded-2xl shadow-md hidden">
+                    Siguiente pregunta <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ==================== PANTALLA VICTORIA ==================== -->
+        <section id="screenWin" class="w-full kid-card p-8 text-center hidden-screen card-pop">
+            <div class="text-7xl mb-4">🏆</div>
+            <h2 class="title-font text-4xl text-orange-500 mb-2">¡Eres un genio de los números!</h2>
+            <p class="text-gray-600 text-lg mb-6">¡Has completado todos los desafíos con éxito!</p>
+
+            <div class="bg-orange-50 rounded-2xl p-6 border-2 border-orange-200 mb-8 inline-block w-full max-w-sm">
+                <p class="text-gray-500 text-sm font-semibold mb-1">Puntuación total</p>
+                <p class="title-font text-5xl text-orange-500 flex items-center justify-center gap-2">
+                    <span id="finalScore">0</span> Puntos
+                </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <button onclick="goToMenu()" class="btn-bounce bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-8 rounded-2xl shadow-md">
+                    Volver atras
+                </button>
+                <button onclick="startLevel(3)" class="btn-bounce bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-2xl shadow-md">
+                    Jugar de nuevo 🔄
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Pie de página -->
+    <footer class="w-full max-w-4xl text-center py-3 text-xs text-gray-600 font-semibold mt-4">
+        <p>LudoKids - Aprendizaje interactivo para niños preescolares</p>
+        <nav class="mt-2 flex justify-center gap-4" aria-label="Información legal">
+            <a class="text-blue-700 underline hover:text-blue-900" href="../../FOOTER_INDEX/Politicas.html">Política de privacidad</a>
+            <a class="text-blue-700 underline hover:text-blue-900" href="../../FOOTER_INDEX/Nosotros.html">Sobre nosotros</a>
+        </nav>
+    </footer>
+
+    <!-- SCRIPT PRINCIPAL -->
+    <!-- SCRIPT PRINCIPAL -->
+    <script>
+        const NUMBERS_DATA = [
+            { num: 1, name: "Uno", icon: "🍎" },
+            { num: 2, name: "Dos", icon: "🐥" },
+            { num: 3, name: "Tres", icon: "⭐" },
+            { num: 4, name: "Cuatro", icon: "🎈" },
+            { num: 5, name: "Cinco", icon: "🐱" },
+            { num: 6, name: "Seis", icon: "🌸" },
+            { num: 7, name: "Siete", icon: "🚗" },
+            { num: 8, name: "Ocho", icon: "🍕" },
+            { num: 9, name: "Nueve", icon: "🦋" },
+            { num: 10, name: "Diez", icon: "⚽" },
+            { num: 11, name: "Once", icon: "🎨" },
+            { num: 12, name: "Doce", icon: "🎁" }
+        ];
+
+        const OBJECT_ICONS = ["🍎", "🐥", "⭐", "🎈", "🐱", "🌸", "🚗", "🍕", "🦋", "⚽", "🎨", "🎁", "🍦", "🚀", "🐶"];
+
+        let audioEnabled = true;
+        let currentSeqData = null;
+        let currentQuizIndex = 0;
+        let currentQuizCount = 0;
+        let quizScore = 0;
+        let isProcessingClick = false; // Bloqueo anti-duplicados
+
+        const synth = window.speechSynthesis;
+
+        function stopAudio() {
+            if (synth) synth.cancel();
+        }
+
+        function playSound(type) {
+            if (!audioEnabled) return;
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                if (type === 'click') {
+                    osc.frequency.value = 600;
+                    gain.gain.setValueAtTime(0.1, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.08);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.08);
+                } else if (type === 'correct') {
+                    osc.frequency.value = 523.25;
+                    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                    osc.start();
+                    osc.frequency.setValueAtTime(659.25, ctx.currentTime + 0.1);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+                    osc.stop(ctx.currentTime + 0.3);
+                } else if (type === 'wrong') {
+                    osc.type = 'sawtooth';
+                    osc.frequency.value = 180;
+                    gain.gain.setValueAtTime(0.15, ctx.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.25);
+                }
+            } catch (e) {}
+        }
+
+        function speak(text) {
+            if (!audioEnabled || !synth) return;
+            synth.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'es-ES';
+            utterance.rate = 0.85;
+            utterance.pitch = 1.1;
+            synth.speak(utterance);
+        }
+
+        function toggleAudio() {
+            audioEnabled = !audioEnabled;
+            const icon = document.getElementById('audioIcon');
+            if (audioEnabled) {
+                icon.className = 'fas fa-volume-up';
+                speak('Sonido activado');
+            } else {
+                icon.className = 'fas fa-volume-mute';
+                stopAudio();
+            }
+        }
+
+        function hideAllScreens() {
+            stopAudio();
+            document.querySelectorAll('main > section').forEach(sec => {
+                sec.classList.add('hidden-screen');
+            });
+        }
+
+        function goToMenu() {
+            stopAudio();
+            playSound('click');
+            hideAllScreens();
+            document.getElementById('screenMenu').classList.remove('hidden-screen');
+        }
+
+        function startLevel(levelNum) {
+            stopAudio();
+            playSound('click');
+            hideAllScreens();
+
+            if (levelNum === 1) {
+                document.getElementById('screenLevel1').classList.remove('hidden-screen');
+                initLevel1();
+            } else if (levelNum === 2) {
+                document.getElementById('screenLevel2').classList.remove('hidden-screen');
+                initLevel2();
+            } else if (levelNum === 3) {
+                document.getElementById('screenLevel3').classList.remove('hidden-screen');
+                initLevel3();
+            }
+        }
+
+        /* NIVEL 1 */
+        function initLevel1() {
+            const grid = document.getElementById('numberGrid');
+            grid.innerHTML = '';
+            NUMBERS_DATA.forEach((data, index) => {
+                const btn = document.createElement('button');
+                btn.className = `btn-bounce bg-orange-400 hover:bg-orange-500 text-white title-font text-2xl py-3 rounded-2xl shadow-md`;
+                btn.innerText = data.num;
+                
+                // Usamos un manejador seguro para evitar doble ejecución por eventos solapados
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    selectNumber(index);
+                });
+
+                grid.appendChild(btn);
+            });
+            renderNumberDisplay(0);
+        }
+
+        function renderNumberDisplay(index) {
+            const data = NUMBERS_DATA[index];
+            const display = document.getElementById('numberDisplay');
+            let iconsHtml = '';
+            for (let i = 0; i < data.num; i++) {
+                iconsHtml += `<span class="animate-bounce inline-block text-3xl md:text-4xl">${data.icon}</span>`;
+            }
+            display.innerHTML = `
+                <div class="flex flex-col items-center">
+                    <div class="text-7xl title-font text-orange-500 bg-white p-4 rounded-3xl shadow-md border-4 border-orange-300 w-32 h-32 flex items-center justify-center mb-2">
+                        ${data.num}
+                    </div>
+                    <span class="text-sm font-bold text-orange-800 title-font">${data.name}</span>
+                </div>
+                <div class="flex flex-wrap justify-center gap-2 max-w-xs my-2">${iconsHtml}</div>
+                <div>
+                    <button onclick="speak('${data.name}')" class="btn-bounce bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-full text-md shadow flex items-center gap-2 mx-auto">
+                        <i class="fas fa-volume-up"></i> Escuchar
+                    </button>
+                </div>
+            `;
+        }
+
+        function selectNumber(index) {
+            // Si ya se está procesando un clic en este instante, ignoramos el segundo evento
+            if (isProcessingClick) return;
+            isProcessingClick = true;
+
+            playSound('click');
+            const data = NUMBERS_DATA[index];
+            renderNumberDisplay(index);
+            speak(data.name);
+
+            // Liberamos el bloqueo después de 400ms para permitir nuevos clics limpios
+            setTimeout(() => {
+                isProcessingClick = false;
+            }, 400);
+        }
+
+        /* NIVEL 2: SECUENCIA ALEATORIA DEL 1 AL 12 */
+        function initLevel2() {
+            loadRandomSequence();
+        }
+
+        function loadRandomSequence() {
+            stopAudio();
+
+            const startNum = Math.floor(Math.random() * 9) + 1;
+            const fullSeq = [startNum, startNum + 1, startNum + 2, startNum + 3];
+
+            const missingIndex = Math.floor(Math.random() * 4);
+            const missingVal = fullSeq[missingIndex];
+
+            const displaySeq = [...fullSeq];
+            displaySeq[missingIndex] = '?';
+
+            let wrongOptions = [];
+            while (wrongOptions.length < 3) {
+                let randOpt = Math.floor(Math.random() * 12) + 1;
+                if (randOpt !== missingVal && !wrongOptions.includes(randOpt)) {
+                    wrongOptions.push(randOpt);
+                }
+            }
+
+            let options = [missingVal, ...wrongOptions].sort(() => Math.random() - 0.5);
+
+            currentSeqData = { missing: missingVal };
+
+            const seqDisplay = document.getElementById('sequenceDisplay');
+            const optionsContainer = document.getElementById('sequenceOptions');
+            const feedback = document.getElementById('sequenceFeedback');
+
+            feedback.innerHTML = '';
+            document.getElementById('btnNextSeq').classList.add('hidden');
+
+            seqDisplay.innerHTML = displaySeq.map(item => `
+                <span class="bg-white px-4 py-3 rounded-2xl shadow-md border-2 border-teal-300 ${item === '?' ? 'text-teal-500 animate-pulse' : ''}">
+                    ${item}
+                </span>
+            `).join('');
+
+            optionsContainer.innerHTML = '';
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = `btn-bounce bg-white hover:bg-teal-100 text-teal-700 border-4 border-teal-300 title-font text-3xl p-4 rounded-2xl shadow-md`;
+                btn.innerText = opt;
+                btn.onclick = () => checkSequenceAnswer(opt, btn);
+                optionsContainer.appendChild(btn);
+            });
+
+            speak("¿Qué número falta en la secuencia?");
+        }
+
+        function checkSequenceAnswer(selected, buttonEl) {
+            const feedback = document.getElementById('sequenceFeedback');
+            const allBtns = document.querySelectorAll('#sequenceOptions button');
+
+            allBtns.forEach(btn => btn.disabled = true);
+
+            if (selected === currentSeqData.missing) {
+                playSound('correct');
+                buttonEl.classList.add('bg-teal-500', 'text-white');
+                feedback.innerHTML = `<span class="text-teal-600 font-bold">¡Muy bien! 🎉 El número es ${currentSeqData.missing}</span>`;
+                speak(`¡Excelente! El número es ${currentSeqData.missing}`);
+            } else {
+                playSound('wrong');
+                buttonEl.classList.add('bg-rose-400', 'text-white');
+                feedback.innerHTML = `<span class="text-rose-500 font-bold">¡Casi! Era el ${currentSeqData.missing}</span>`;
+                speak(`Casi. El número correcto era ${currentSeqData.missing}`);
+            }
+
+            document.getElementById('btnNextSeq').classList.remove('hidden');
+        }
+
+        /* NIVEL 3: GRAN DESAFÍO CON PUNTUACIÓN Y PREGUNTAS ALEATORIAS (1 AL 12) */
+        function initLevel3() {
+            currentQuizIndex = 0;
+            quizScore = 0;
+            document.getElementById('quizScore').innerText = quizScore;
+            loadRandomQuizQuestion();
+        }
+
+        function loadRandomQuizQuestion() {
+            stopAudio();
+            document.getElementById('quizCurrent').innerText = currentQuizIndex + 1;
+            document.getElementById('quizFeedback').innerHTML = '';
+            document.getElementById('btnNextQuestion').classList.add('hidden');
+
+            currentQuizCount = Math.floor(Math.random() * 12) + 1;
+            const randIcon = OBJECT_ICONS[Math.floor(Math.random() * OBJECT_ICONS.length)];
+
+            const container = document.getElementById('quizObjectsContainer');
+            container.innerHTML = '';
+            for (let i = 0; i < currentQuizCount; i++) {
+                container.innerHTML += `<span class="animate-bounce inline-block text-3xl md:text-4xl">${randIcon}</span>`;
+            }
+
+            let wrongOptions = [];
+            while (wrongOptions.length < 3) {
+                let randOpt = Math.floor(Math.random() * 12) + 1;
+                if (randOpt !== currentQuizCount && !wrongOptions.includes(randOpt)) {
+                    wrongOptions.push(randOpt);
+                }
+            }
+
+            let options = [currentQuizCount, ...wrongOptions].sort(() => Math.random() - 0.5);
+
+            const optionsContainer = document.getElementById('quizOptions');
+            optionsContainer.innerHTML = '';
+
+            options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = `btn-bounce bg-white hover:bg-fuchsia-100 text-fuchsia-700 border-4 border-fuchsia-300 title-font text-3xl p-4 rounded-2xl shadow-md`;
+                btn.innerText = opt;
+                btn.onclick = () => checkQuizAnswer(opt, btn);
+                optionsContainer.appendChild(btn);
+            });
+
+            speak("¿Cuántos objetos ves en la pantalla?");
+        }
+
+        function checkQuizAnswer(selected, buttonEl) {
+            const feedback = document.getElementById('quizFeedback');
+            const allBtns = document.querySelectorAll('#quizOptions button');
+
+            allBtns.forEach(btn => btn.disabled = true);
+
+            if (selected === currentQuizCount) {
+                playSound('correct');
+                buttonEl.classList.add('bg-fuchsia-500', 'text-white');
+                feedback.innerHTML = `<span class="text-fuchsia-600 font-bold">¡Correcto! 🎉 Hay ${currentQuizCount} objetos</span>`;
+                quizScore += 20;
+                document.getElementById('quizScore').innerText = quizScore;
+                speak(`¡Muy bien! Hay ${currentQuizCount} objetos.`);
+            } else {
+                playSound('wrong');
+                buttonEl.classList.add('bg-rose-400', 'text-white');
+                feedback.innerHTML = `<span class="text-rose-500 font-bold">¡Casi! Hay ${currentQuizCount} objetos</span>`;
+                speak(`Casi. Hay ${currentQuizCount} objetos.`);
+            }
+
+            document.getElementById('btnNextQuestion').classList.remove('hidden');
+        }
+
+        function nextQuizQuestion() {
+            stopAudio();
+            currentQuizIndex++;
+            if (currentQuizIndex < 5) {
+                loadRandomQuizQuestion();
+            } else {
+                showWinScreen();
+            }
+        }
+
+        function showWinScreen() {
+            stopAudio();
+            hideAllScreens();
+            document.getElementById('screenWin').classList.remove('hidden-screen');
+            document.getElementById('finalScore').innerText = quizScore;
+            playSound('correct');
+            speak(`¡Felicidades! Completaste la aventura con ${quizScore} puntos.`);
+        }
+    </script>
+</body>
+</html>
