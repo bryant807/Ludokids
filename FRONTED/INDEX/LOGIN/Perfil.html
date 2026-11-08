@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LudoKids - Perfil</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../CSS/Index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>      
+    <header class="header-ALL">
+        <div class="Encabezado-De-Paginas">
+            <div class="elmo-DiferenteH2">
+                <img src="../../ELEMENTOS/mario_header2-removebg-preview.webp" alt="figurita de elmo">
+            </div>
+            <div class="letrero-Del-H2">
+                <img src="../../ELEMENTOS/letrero-header-2.png" alt="slogan">
+            </div>
+            <div class="texto-elmo">
+                <img src="../../ELEMENTOS/logo_principal-removebg-preview.webp" alt="texto sobre la pagina">
+            </div>
+        </div>
+        <nav class="menu">
+            <a href="../../INDEX/PRINCIPALES/Inicio.html"><i class="fa-solid fa-house"></i><span>Inicio</span></a>
+            <a href="../../INDEX/PRINCIPALES/Juegos.html"><i class="fa-solid fa-gamepad"></i><span>Juegos</span></a>
+            <a href="../../INDEX/PRINCIPALES/Cuentos.html"><i class="fa-solid fa-book-open"></i><span>Cuentos</span></a>
+            <a href="../../INDEX/PRINCIPALES/Profesores.html"><i class="fa-solid fa-chalkboard-user"></i><span>Profesores</span></a>
+            <a href="../../INDEX/PRINCIPALES/Recreo.html"><i class="fa-solid fa-puzzle-piece"></i><span>Recreo</span></a>
+            <a href="InicioDeSesion.html" class="btn-login-nav activo" aria-label="Iniciar sesión"><i class="fa-solid fa-user"></i></a>
+        </nav>
+    </header>
+
+    <main class="contenedor">
+        <!-- barra izquierda-->
+        <aside class="barra-lateral">
+
+          <figure class="foto-perfil">
+             <img src="img/img_predeterminada.jpg" alt="Foto de perfil" id="imagenPerfil">
+          </figure>
+
+           <figcaption>
+                <label for="cambiarFoto" class="boton-foto">
+                <i class="fa-solid fa-camera"></i> Cambiar foto
+                </label>
+                <input type="file" id="cambiarFoto" accept="image/*">
+           </figcaption>
+
+            <nav>
+                <a href="Perfil.html" class="opcion activa">Perfil</a>
+                <a href="Actividades.html" class="opcion">Mis Actividades</a>
+                <a href="" class="opcion">Cerrar Sesión</a>
+            </nav>
+        </aside>
+
+        <section class="contenido">
+            <h2 class="titulo">Mi Perfil</h2>
+            <article class="tarjeta nombre">
+                <div class="icono">👤</div>
+
+                <div class="informacion">
+                    <h3>Nombre</h3>
+                    <input type="text"placeholder="Nombre del usuario">
+                </div>
+            </article>
+
+            <article class="tarjeta material">
+               <div class="icono">☁️</div>
+
+               <div class="informacion">
+                   <h3>Material Subido</h3>
+                   <div class="archivo">
+                       <span class="pdf">PDF</span>
+
+                       <div class="datos">
+                           <input type="file" id="archivoPDF" accept=".pdf,application/pdf">
+                           <p id="nombreArchivo">Ningún archivo seleccionado</p>
+                       </div>
+
+                       <button type="button" id="subirPDF" class="boton-ver" disabled>Subir archivo</button>
+                   </div>
+
+                   <p class="texto-ayuda">Selecciona un documento PDF para guardarlo.</p>
+               </div>
+           </article>
+
+            <article class="tarjeta contraseña">
+                <div class="icono">🔒</div>
+                <div class="informacion">
+                    <h3>Cambiar Contraseña</h3>
+
+                    <form id="formContrasena" novalidate>
+                        <label for="contrasenaActual">Contraseña actual</label>
+                        <input type="password" id="contrasenaActual" placeholder="Contraseña actual"
+                        autocomplete="current-password" required>
+
+                        <label for="nuevaContrasena">Nueva contraseña</label>
+                        <input type="password" id="nuevaContrasena" placeholder="Nueva contraseña"
+                        autocomplete="new-password" minlength="6" required>
+
+                        <label for="confirmarContrasena">Confirmar contraseña</label>
+                        <input type="password" id="confirmarContrasena" placeholder="Confirmar contraseña"
+                        autocomplete="new-password" minlength="6" required>
+
+                        <button type="submit" class="actualizar">Actualizar</button>
+                        <p id="mensajeContrasena" class="mensaje" aria-live="polite"></p>
+                    </form>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <script src="../../JS/Perfil.js"></script>
+    <footer class="main-footer">
+    <div class="footer-container">
+
+        <!-- Columna 1: Enlaces legales e información -->
+        <div class="footer-column">
+            <h4>Información</h4>
+            <ul class="footer-links">
+                <li><a href="../FOOTER_INDEX/Politicas.html">Política de privacidad</a></li>
+                <li><a href="../FOOTER_INDEX/Nosotros.html">Sobre nosotros</a></li>
+            </ul>
+        </div>
+
+        <!-- Columna 2: Contacto -->
+        <div class="footer-column">
+            <h4>Contáctanos</h4>
+            <address class="footer-contact">
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=ieca.ludokids@gmail.com" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-solid fa-envelope"></i> ieca.ludokids@gmail.com
+                </a>
+            </address>
+        </div>
+
+        <!-- Columna 3: Redes Sociales -->
+        <div class="footer-column">
+            <h4>Síguenos</h4>
+            <div class="social-icons">
+                <a href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+                    <i class="fa-brands fa-tiktok fa-2x"></i>
+                </a>
+                <a href="https://www.instagram.com/ieca.ludokids/?utm_source=ig_web_button_share_sheet" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                    <i class="fa-brands fa-instagram fa-2x"></i>
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Barra inferior para Derechos de Autor -->
+    <div class="footer-bottom">
+        <p>&copy; <time datetime="2026">2026</time> LudoKids. Todos los derechos reservados.</p>
+    </div>
+</footer>
+</body>
+</html>

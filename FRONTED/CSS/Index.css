@@ -1396,7 +1396,753 @@ main.contenido-prin-cuentos {
   text-align: center;
   font-size: 0.85rem;
 }
+/*==============================================
+  Perfil
+==============================================*/
+/* ===== CONTENEDOR PRINCIPAL ===== */
+.contenedor {
+    display: flex;
+    gap: 25px;
+    padding: 25px 35px;
+    align-items: stretch;
+}
 
+/* ===== BARRA LATERAL ===== */
+.barra-lateral {
+    width: 330px;
+    min-width: 260px;
+    background: #edf5ff;
+    border: 3px solid #b8ddff;
+    border-radius: 40px;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 5px 12px #c7baff;
+}
+
+/* FOTO DE PERFIL */
+.foto-perfil {
+    width: 230px;
+    height: 230px;
+    margin: 0 auto 25px;
+    background: #cccccc;
+    border: 8px solid #d7eaff;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.foto-perfil img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* OPCIONES LATERALES */
+.barra-lateral nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.opcion {
+    display: block;
+    text-decoration: none;
+    color: #153c89;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 18px 12px;
+    margin: 12px 0;
+    border-radius: 30px;
+    transition: 0.3s;
+}
+
+.opcion:hover,
+.opcion.activa {
+    background: #c8baff;
+    transform: scale(1.03);
+}
+
+/* ===== CONTENIDO DEL PERFIL ===== */
+.contenido {
+    flex: 1;
+    min-width: 0;
+}
+
+/* TÍTULO */
+.titulo {
+    background: #a8dcfa;
+    padding: 22px 35px;
+    border-radius: 35px 35px 0 0;
+    border: 3px solid #8bcfff;
+}
+
+.titulo h2 {
+    color: #19458f;
+    font-size: 38px;
+}
+
+/* ===== TARJETAS ===== */
+.tarjeta {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    background: white;
+    border: 3px solid #b8dfff;
+    border-radius: 35px;
+    padding: 25px;
+    margin-bottom: 15px;
+    box-shadow: 0 5px 8px #d9caff;
+}
+
+/* ICONOS */
+.icono {
+    width: 150px;
+    height: 140px;
+    min-width: 110px;
+    background: #dceeff;
+    border-radius: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 65px;
+}
+
+/* INFORMACIÓN */
+.informacion {
+    flex: 1;
+    min-width: 0;
+}
+
+.informacion h3 {
+    color: #183f88;
+    font-size: 29px;
+    margin-bottom: 12px;
+}
+
+/* CAMPOS DE TEXTO */
+.informacion input {
+    width: 100%;
+    padding: 15px 20px;
+    border: 3px solid #bcb7ff;
+    border-radius: 30px;
+    font-size: 19px;
+    color: #294c91;
+    background: #f6f4ff;
+    margin-bottom: 10px;
+    outline: none;
+}
+
+.informacion input:focus {
+    border-color: #55c9ed;
+}
+
+/* ETIQUETAS */
+.informacion label {
+    display: block;
+    color: #294c91;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+/* ===== MATERIAL SUBIDO ===== */
+.archivo {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: #eeeaff;
+    border: 3px solid #c7baff;
+    border-radius: 30px;
+    padding: 12px 18px;
+}
+
+.pdf {
+    background: #ef4545;
+    color: white;
+    font-weight: bold;
+    padding: 17px 10px;
+    border-radius: 8px;
+}
+
+.datos {
+    flex: 1;
+}
+
+.datos p {
+    color: #183f88;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.datos small {
+    color: #667da9;
+    font-size: 15px;
+}
+
+/* BOTÓN VER */
+.boton-ver {
+    text-decoration: none;
+    color: #183f88;
+    background: #c8baff;
+    padding: 15px 25px;
+    border-radius: 30px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.boton-ver:hover {
+    background: #aa98f5;
+}
+
+/* ===== CAMBIAR CONTRASEÑA ===== */
+.contraseña {
+    gap: 20px;
+}
+
+.contraseña fieldset {
+    border: none;
+}
+
+.contraseña legend {
+    color: #183f88;
+    font-size: 29px;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+/* BOTÓN ACTUALIZAR */
+.actualizar {
+    background: #f48acb;
+    color: #153c89;
+    border: none;
+    padding: 20px 30px;
+    border-radius: 35px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.actualizar:hover {
+    background: #e96db9;
+    transform: scale(1.05);
+}
+
+
+/* ===== DISEÑO RESPONSIVE ===== */
+@media (max-width: 900px) {
+
+    .contenedor {
+        flex-direction: column;
+        padding: 15px;
+    }
+
+    .barra-lateral {
+        width: 100%;
+    }
+
+    .foto-perfil {
+        width: 150px;
+        height: 150px;
+    }
+
+    .tarjeta {
+        flex-wrap: wrap;
+    }
+
+    .menu {
+        gap: 8px;
+    }
+}
+
+/* CELULARES */
+@media (max-width: 550px) {
+
+    .encabezado {
+        flex-direction: column;
+    }
+
+    .menu a {
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .tarjeta {
+        padding: 15px;
+        gap: 12px;
+    }
+
+    .icono {
+        width: 75px;
+        height: 75px;
+        min-width: 75px;
+        font-size: 35px;
+    }
+
+    .informacion h3,
+    .contraseña legend {
+        font-size: 21px;
+    }
+
+    .archivo {
+        flex-wrap: wrap;
+    }
+
+    .actualizar {
+        width: 100%;
+    }
+}
+.foto-perfil {
+    text-align: center;
+}
+
+.foto-perfil img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #d9c5f5;
+}
+
+#cambiarFoto {
+    display: none;
+}
+
+.boton-foto {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 9px 18px;
+    background-color: #d9c5f5;
+    color: #574477;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.boton-foto:hover {
+    background-color: #c5a9ed;
+}
+
+/* ===== FUNCIONALIDAD DE ARCHIVOS ===== */
+.boton-seleccionar {
+    display: inline-block;
+    color: #183f88;
+    background: #dcd5ff;
+    padding: 12px 18px;
+    border-radius: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.boton-seleccionar:hover {
+    background: #c8baff;
+}
+
+.nombre-archivo {
+    margin-top: 7px;
+    overflow-wrap: anywhere;
+}
+
+.boton-ver.deshabilitado {
+    opacity: 0.5;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.mensaje {
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.mensaje.error {
+    color: #c62828;
+}
+
+.mensaje.exito {
+    color: #237a43;
+}
+
+/* Los campos del formulario de contraseña conservan el estilo general. */
+#formContrasena {
+    width: 100%;
+}
+
+#formContrasena label {
+    margin-top: 5px;
+}
+
+#formContrasena .actualizar {
+    margin-top: 8px;
+}
+
+@media (max-width: 550px) {
+    .archivo {
+        align-items: flex-start;
+    }
+
+    .boton-ver,
+    .boton-seleccionar {
+        text-align: center;
+    }
+}
+
+/* BOTONES UNO DEBAJO DEL OTRO */
+
+.botones-archivo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 140px;
+}
+
+.botones-archivo button {
+    width: 100%;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 13px 18px;
+    border-radius: 25px;
+    font-size: 15px;
+    transition: 0.3s;
+}
+
+/* BOTÓN VER */
+
+.boton-ver {
+    background: #c8baff;
+    color: #183f88;
+}
+
+.boton-ver:hover:not(:disabled) {
+    background: #aa98f5;
+}
+
+/* BOTÓN SUBIR */
+
+.boton-subir {
+    background: #f48acb;
+    color: #153c89;
+}
+
+.boton-subir:hover:not(:disabled) {
+    background: #e96db9;
+}
+
+/* BOTONES DESHABILITADOS */
+
+.botones-archivo button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ADAPTACIÓN PARA CELULARES */
+
+@media (max-width: 550px) {
+    .botones-archivo {
+        width: 100%;
+    }
+}
+
+/*actividades
+*/
+
+.contenedor {
+    display: flex;
+    gap: 25px;
+    padding: 25px 35px;
+    min-height: 100vh;
+}
+
+/* BARRA LATERAL */
+
+.barra-lateral {
+    width: 330px;
+    min-width: 260px;
+    background: #edf5ff;
+    border: 3px solid #b8ddff;
+    border-radius: 40px;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 5px 12px #c7baff;
+}
+
+.foto-perfil {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 30px;
+    border: 6px solid #d7eaff;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.foto-perfil img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.barra-lateral nav {
+    display: flex;
+    flex-direction: column;
+}
+
+.opcion {
+    display: block;
+    text-decoration: none;
+    color: #153c89;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 18px 12px;
+    margin: 12px 0;
+    border-radius: 30px;
+    transition: 0.3s;
+}
+
+.opcion:hover,
+.opcion.activa {
+    background: #c8baff;
+    transform: scale(1.03);
+}
+
+/* CONTENIDO */
+
+.contenido {
+    flex: 1;
+    min-width: 0;
+}
+
+.titulo {
+    background: #a8dcfa;
+    color: #19458f;
+    font-size: 35px;
+    padding: 22px 35px;
+    border-radius: 35px 35px 0 0;
+    border: 3px solid #8bcfff;
+    margin-bottom: 20px;
+}
+
+/* ESTADÍSTICAS */
+
+.estadisticas {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.estadistica {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: white;
+    border: 3px solid #b8dfff;
+    border-radius: 30px;
+    padding: 22px;
+    box-shadow: 0 5px 8px #d9caff;
+}
+
+.estadistica-icono {
+    background: #eeeaff;
+    border-radius: 20px;
+    padding: 18px;
+    font-size: 35px;
+}
+
+.estadistica p {
+    color: #667da9;
+    font-size: 17px;
+}
+
+.estadistica h3 {
+    color: #183f88;
+    font-size: 32px;
+    margin-top: 5px;
+}
+
+/* PANEL DE ARCHIVOS */
+
+.panel-archivos {
+    background: white;
+    border: 3px solid #b8dfff;
+    border-radius: 30px;
+    padding: 25px;
+    min-height: 350px;
+    box-shadow: 0 5px 8px #d9caff;
+}
+
+.encabezado-archivos {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.encabezado-archivos h3 {
+    color: #183f88;
+    font-size: 25px;
+}
+
+.encabezado-archivos span {
+    color: #667da9;
+    font-size: 14px;
+}
+
+/* MENSAJE CUANDO NO HAY ARCHIVOS */
+
+.mensaje-vacio {
+    text-align: center;
+    padding: 45px 15px;
+}
+
+.icono-vacio {
+    font-size: 65px;
+    margin-bottom: 15px;
+}
+
+.mensaje-vacio h3 {
+    color: #183f88;
+    font-size: 23px;
+    margin-bottom: 10px;
+}
+
+.mensaje-vacio p {
+    color: #667da9;
+    font-size: 17px;
+    margin-bottom: 22px;
+}
+
+.boton-perfil {
+    display: inline-block;
+    text-decoration: none;
+    background: #c8baff;
+    color: #183f88;
+    padding: 13px 25px;
+    border-radius: 25px;
+    font-weight: bold;
+}
+
+.boton-perfil:hover {
+    background: #aa98f5;
+}
+
+/* TARJETAS DE CADA ARCHIVO */
+
+.lista-archivos {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.archivo-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background: #eeeaff;
+    border: 2px solid #c7baff;
+    border-radius: 25px;
+    padding: 18px;
+}
+
+.icono-pdf {
+    background: #ef4545;
+    color: white;
+    font-weight: bold;
+    padding: 15px 10px;
+    border-radius: 10px;
+}
+
+.info-archivo {
+    flex: 1;
+    min-width: 0;
+}
+
+.info-archivo h4 {
+    color: #183f88;
+    font-size: 18px;
+    overflow-wrap: anywhere;
+}
+
+.info-archivo p {
+    color: #667da9;
+    font-size: 14px;
+    margin-top: 6px;
+}
+
+.acciones-archivo {
+    display: flex;
+    gap: 10px;
+}
+
+.boton-abrir,
+.boton-eliminar {
+    border: none;
+    text-decoration: none;
+    padding: 12px 18px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.boton-abrir {
+    background: #c8baff;
+    color: #183f88;
+}
+
+.boton-eliminar {
+    background: #ffd5df;
+    color: #a52b50;
+}
+
+.boton-abrir:hover {
+    background: #aa98f5;
+}
+
+.boton-eliminar:hover {
+    background: #ffb8ca;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+    .contenedor {
+        flex-direction: column;
+        padding: 15px;
+    }
+
+    .barra-lateral {
+        width: 100%;
+    }
+
+    .estadisticas {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 550px) {
+    .archivo-item {
+        flex-wrap: wrap;
+    }
+
+    .acciones-archivo {
+        width: 100%;
+    }
+
+    .boton-abrir,
+    .boton-eliminar {
+        flex: 1;
+    }
+
+    .titulo {
+        font-size: 27px;
+    }
+
+    .encabezado-archivos {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
 /* ===========================================================
     14. MEDIA QUERIES (RESPONSIVE DEPURADO)
 =========================================================== */
