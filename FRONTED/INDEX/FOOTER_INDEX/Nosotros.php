@@ -98,7 +98,7 @@ session_start();
             <img src="../../ELEMENTOS/ImgPrinNosotros.webp" alt="Niños jugando" class="imagen-presentacion">
             <div class="texto-presentacion">
                 <p>Somos un equipo de estudiantes de la Institución Educativa Ciudadela Las Américas de la ciudad de Medellín, pertenecientes al programa de media técnica en desarrollo de software (en convenio con la Institución Universitaria Pascual Bravo).</p>
-                <p>LudoKids nace como una iniciativa pedagógica y tecnológica diseñada para dar respuesta a las necesidades de aprendizaje de los niños y niñas de preescolar. Al identificar que los estudiantes más pequeños suelen presentar dificultades de concentración o falta de motivación con las metodologías tradicionales, decidimos crear una posible solución digital en español, interactiva, accesible y totalmente gratuita.</p>
+                <p>Ludokids nace como una iniciativa pedagógica y tecnológica diseñada para dar respuesta a las necesidades de aprendizaje de los niños y niñas de preescolar. Al identificar que los estudiantes más pequeños suelen presentar dificultades de concentración o falta de motivación con las metodologías tradicionales, decidimos crear una posible solución digital en español, interactiva, accesible y totalmente gratuita.</p>
             </div>
         </div>
 
@@ -109,7 +109,7 @@ session_start();
             </div>
             <div class="caja-vision">
                 <h2>VISIÓN</h2>
-                <p>Fomentar en los niños el interés por la tecnología y el aprendizaje dinámico, promoviendo el desarrollo cognitivo desde la primera infancia.        </p>
+                <p>Fomentar en los niños el interés por la tecnología y el aprendizaje dinámico, promoviendo el desarrollo cognitivo desde la primera infancia.</p>
             </div>
         </div>
     </section>
@@ -120,22 +120,22 @@ session_start();
             <div class="tarjeta-integrante">
                 <img src="../../ELEMENTOS/Aleja-A.webp" alt="Foto de María Alejandra Álvarez Usma">
                 <p class="nombre-integrante">Álvarez Usma María<br>Alejandra</p>
-                <span class="rol-integrante">FULL-STACK (Líder del equipo)</span>
+                <span class="rol-integrante">Scrum master</span>
             </div>
             <div class="tarjeta-integrante">
                 <img src="../../ELEMENTOS/Bryant-M.webp" alt="Foto de Bryant Esteban Mejía Duque">
                 <p class="nombre-integrante">Mejía Duque Bryant<br>Esteban</p>
-                <span class="rol-integrante">FULL-STACK</span>
+                <span class="rol-integrante">Desarrollador back-end</span>
             </div>
             <div class="tarjeta-integrante">
                 <img src="../../ELEMENTOS/Nicole-T.webp" alt="Foto de Nicole Sofía Fabares Mazo">
-                <p class="nombre-integrante">Fabares Mazo Nicole<br>Sofía</p>
-                <span class="rol-integrante">FULL-STACK</span>
+                <p class="nombre-integrante">Tabares Mazo Nicole<br>Sofía</p>
+                <span class="rol-integrante">Diseñadora UX/UI</span>
             </div>
             <div class="tarjeta-integrante">
                 <img src="../../ELEMENTOS/Jeronimo-Z.webp" alt="Foto de Jerónimo Zapata Álvarez">
                 <p class="nombre-integrante">Zapata Álvarez<br>Jerónimo</p>
-                <span class="rol-integrante">FULL-STACK</span>
+                <span class="rol-integrante">Desarrollador Front-end</span>
             </div>
         </div>
     </section>

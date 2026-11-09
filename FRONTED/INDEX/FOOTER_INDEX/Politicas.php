@@ -8,12 +8,11 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Política de privacidad y derechos de autor - LudoKids</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../../../FRONTED/CSS/Index.css">
+    <link rel="stylesheet" href="/ludokids 3 de noviembre/FRONTED/CSS/Index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;700&family=Baloo+2:wght@600;800&display=swap" rel="stylesheet">
     <style>
-        /* Estilos mejorados para hacer la página más atractiva */
         .PoliticasMain {
             max-width: 900px;
             margin: 40px auto;
@@ -71,34 +70,32 @@ session_start();
     <header class="header-ALL">
         <div class="Encabezado-De-Paginas">
             <div class="elmo-DiferenteH2">
-                <img src="../../../FRONTED/Elementos/mario_header2-removebg-preview.webp" alt="figurita de Elmo">
+                <img src="/ludokids 3 de noviembre/FRONTED/ELEMENTOS/mario_header2-removebg-preview.webp" alt="figurita de Elmo">
             </div>
             <div class="letrero-Del-H2">
-                <img src="../../../FRONTED/Elementos/letrero-header-2.png" alt="slogan">
+                <img src="/ludokids 3 de noviembre/FRONTED/ELEMENTOS/letrero-header-2.png" alt="slogan">
             </div>  
             <div class="texto-elmo">
-                <img src="../../../FRONTED/Elementos/logo_principal-removebg-preview.webp" alt="texto sobre la página">
+                <img src="/ludokids 3 de noviembre/FRONTED/ELEMENTOS/logo_principal-removebg-preview.webp" alt="texto sobre la página">
             </div>
         </div>
         <nav class="menu">
-    <a href="../PRINCIPALES/Inicio.html"><i class="fa-solid fa-house"></i><span>Inicio</span></a>
-    <a href="../PRINCIPALES/Juegos.php"><i class="fa-solid fa-gamepad"></i><span>Juegos</span></a>
-    <a href="../PRINCIPALES/Cuentos.php"><i class="fa-solid fa-book-open"></i><span>Cuentos</span></a>
-    <a href="../PRINCIPALES/Profesores.php"><i class="fa-solid fa-chalkboard-user"></i><span>Profesores</span></a>
-    <a href="../PRINCIPALES/Recreo.php"><i class="fa-solid fa-puzzle-piece"></i><span>Recreo</span></a>
+            <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/PRINCIPALES/Inicio.html"><i class="fa-solid fa-house"></i><span>Inicio</span></a>
+            <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/PRINCIPALES/Juegos.php"><i class="fa-solid fa-gamepad"></i><span>Juegos</span></a>
+            <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/PRINCIPALES/Cuentos.php"><i class="fa-solid fa-book-open"></i><span>Cuentos</span></a>
+            <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/PRINCIPALES/Profesores.php"><i class="fa-solid fa-chalkboard-user"></i><span>Profesores</span></a>
+            <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/PRINCIPALES/Recreo.php"><i class="fa-solid fa-puzzle-piece"></i><span>Recreo</span></a>
 
-    <?php if (isset($_SESSION['id_usuario'])): ?>
-        <!-- SI HAY SESIÓN INICIADA: Muestra el icono con check y manda al Perfil -->
-        <a href="../LOGIN/Perfil.php" class="btn-login-nav activo" aria-label="Ver Perfil">
-            <i class="fa-solid fa-user-check"></i>
-        </a>
-    <?php else: ?>
-        <!-- SI NO HAY SESIÓN: Muestra el icono normal y manda al Login -->
-        <a href="../LOGIN/InicioDeSesion.php" class="btn-login-nav" aria-label="Iniciar sesión">
-            <i class="fa-solid fa-user"></i>
-        </a>
-    <?php endif; ?>
-</nav>
+            <?php if (isset($_SESSION['id_usuario'])): ?>
+                <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/LOGIN/Perfil.php" class="btn-login-nav activo" aria-label="Ver Perfil">
+                    <i class="fa-solid fa-user-check"></i>
+                </a>
+            <?php else: ?>
+                <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/LOGIN/InicioDeSesion.php" class="btn-login-nav" aria-label="Iniciar sesión">
+                    <i class="fa-solid fa-user"></i>
+                </a>
+            <?php endif; ?>
+        </nav>
     </header>
     
     <div class="section-transition"></div>
@@ -107,22 +104,27 @@ session_start();
         <h1>Política de privacidad y derechos de autor</h1>
 
         <h2>1. ¿Quiénes somos?</h2>
-        <p>LudoKids es un proyecto académico desarrollado por un grupo de estudiantes de grado once de la Institución Educativa Ciudadela Las Américas (Medellín), como parte de su proceso en la media técnica en desarrollo de software. Su enfoque es estrictamente educativo, pedagógico y sin ánimo de lucro.</p>
+        <p>LudoKids es un proyecto académico desarrollado por estudiantes de grado once de la Institución Educativa Ciudadela Las Américas (Medellín), como trabajo de grado de la Media Técnica en Desarrollo de Software. Su enfoque es estrictamente educativo, pedagógico y sin ánimo de lucro.</p>
 
         <h2>2. Propósito del sitio</h2>
-        <p>Este sitio web fue creado para ofrecer un espacio digital interactivo, inclusivo y accesible dirigido a profesores y padres de familia fomentando el aprendizaje a través de juegos, cuentos y recursos didácticos en español.</p>
+        <p>Este sitio web fue creado para ofrecer un espacio digital interactivo, inclusivo y accesible dirigido a profesores, facilitando herramientas pedagógicas para que los docentes las utilicen y enseñen a los niños a través de juegos, cuentos, actividades descargables y un módulo interactivo de comentarios.</p>
 
         <h2>3. Información que recopilamos</h2>
-        <p>LudoKids no solicita ni almacena información personal de sus visitantes. No contamos con formularios de registro obligatorio, pasarelas de pago ni recolección de datos con fines comerciales o publicitarios.</p>
+        <p>Con la implementación de las funciones avanzadas en la plataforma, LudoKids gestiona los siguientes datos:</p>
+        <ul class="ServiciosLista">
+            <li><strong>Cuentas de usuario:</strong> Almacenamos el nombre de usuario, correo electrónico y contraseña (cifrada con algoritmos seguros `POST`) para la autenticación de profesores y administradores.</li>
+            <li><strong>Módulo de Comentarios:</strong> Se guardan en nuestra base de datos MySQL el nombre del autor, la calificación otorgada (sistema de estrellas), el mensaje enviado y la fecha de publicación.</li>
+            <li><strong>Repositorio de Materiales:</strong> Almacenamos los archivos PDF subidos por los docentes autorizados para su disponibilidad en la sección de actividades.</li>
+        </ul>
 
         <h2>4. Propiedad intelectual y derechos de autor</h2>
         <div class="copyright-box">
             <p>El proyecto <strong>LudoKids</strong> combina desarrollos propios con la integración de recursos educativos externos debidamente reconocidos:</p>
             <ul class="ServiciosLista">
-                <li><strong>Desarrollos propios:</strong> Los juegos interactivos educativos de <strong>rompecabezas de animales</strong>, <strong>vocales</strong> y <strong>números</strong>, junto con el código fuente del sitio, diseño web e interfaces, fueron programados y diseñados exclusivamente por el equipo desarrollador de LudoKids.</li>
+                <li><strong>Desarrollos propios:</strong> Los juegos interactivos educativos de <strong>rompecabezas de animales</strong>, <strong>vocales</strong> y <strong>números</strong>, junto con el código fuente del sitio (HTML, CSS, JavaScript, PHP y base de datos MySQL), fueron programados y diseñados exclusivamente por el equipo desarrollador de LudoKids.</li>
                 <li><strong>Juegos Educativos Externos:</strong> Las actividades interactivas de <em>los medios de transporte</em>, <em>las profesiones</em>, <em>el sistema solar</em>, <em>partes del cuerpo</em> y <em>los colores</em> fueron extraídas y adaptadas desde las plataformas educativas de <strong>Educaplay</strong> y <strong>Genially</strong>.</li>
-                <li><strong>Zona de Recreo (Minijuegos):</strong> Todos los minijuegos interactivos de la sección de recreo provienen de la plataforma externa <strong>pacogames.com</strong>, integrados mediante marcos (*iframes*) para el entretenimiento de los usuarios.</li>
-                <li><strong>Cuentos infantiles:</strong> Las historias y narraciones clásicas presentadas en la sección de cuentos fueron extraídas y adaptadas como material de lectura desde el portal educativo <strong>Árbol ABC</strong>.</li>
+                <li><strong>Zona de Recreo (Minijuegos):</strong> Todos los minijuegos interactivos de la sección de recreo provienen de la plataforma externa <strong>pacogames.com</strong>, integrados mediante marcos (iframes).</li>
+                <li><strong>Cuentos infantiles:</strong> Las historias y narraciones clásicas presentadas en la sección de cuentos fueron extraídas y adaptadas desde el portal educativo <strong>Árbol ABC</strong>.</li>
             </ul>
             <p><strong>Uso permitido:</strong> Se fomenta el uso del material propio y recopilado con fines exclusivamente pedagógicos y escolares sin ánimo de lucro.</p>
         </div>
@@ -130,22 +132,22 @@ session_start();
         <h2>5. Servicios y Recursos de Terceros</h2>
         <p>Nuestro sitio integra herramientas y contenidos externos para enriquecer la experiencia de aprendizaje:</p>
         <ul class="ServiciosLista">
-            <li><strong>Educaplay y Genially:</strong> Actividades interactivas integradas mediante marcos (iframes), sujetas a las políticas y derechos de sus respectivas plataformas.</li>
-            <li><strong>Google Fonts:</strong> Carga de tipografías optimizadas (como League Spartan y Baloo 2) desde los servidores oficiales de Google.</li>
-            <li><strong>Recursos Multimedia:</strong> Imágenes y audios de referencia utilizados con fines didácticos bajo normativas de uso educativo justo (*fair use*).</li>
+            <li><strong>Educaplay y Genially:</strong> Actividades interactivas integradas mediante marcos (iframes), sujetas a las políticas de sus respectivas plataformas.</li>
+            <li><strong>Google Fonts:</strong> Carga de tipografías optimizadas desde los servidores oficiales de Google.</li>
+            <li><strong>Font Awesome:</strong> Iconografía técnica y vectorial para la navegación e interfaz interactiva.</li>
         </ul>
 
-        <h2>6. Uso por parte de menores</h2>
-        <p>LudoKids está diseñado para la primera infancia. Recomendamos que la navegación de los niños se realice bajo la supervisión de padres, tutores o docentes. Al no recopilar datos personales, garantizamos un entorno digital seguro.</p>
+        <h2>6. Enfoque de uso pedagógico</h2>
+        <p>LudoKids está diseñado como una herramienta de apoyo para los profesores. Las funciones de la plataforma están orientadas a que los docentes las utilicen directamente en sus clases para enseñar a los niños de manera interactiva, dinámica y segura.</p>
 
-        <h2>7. Cookies</h2>
-        <p>El sitio web de LudoKids no utiliza cookies propias de rastreo publicitario. Los servicios externos integrados pueden emplear cookies técnicas propias para su correcto funcionamiento.</p>
+        <h2>7. Cookies y Sesiones</h2>
+        <p>LudoKids utiliza únicamente **cookies técnicas de sesión PHP** (`session_start()`) estrictamente necesarias para autenticar a los profesores registrados, mantener la sesión activa al navegar entre páginas y permitir la actualización de credenciales o publicación de comentarios.</p>
 
         <h2>8. Modificaciones a esta política</h2>
-        <p>Al tratarse de un proyecto escolar en constante evolución, esta política podrá actualizarse conforme el sistema incorpore nuevas funciones o mejoras técnicas.</p>
+        <p>Al tratarse de un proyecto en constante evolución técnica, esta política podrá actualizarse conforme el sistema incorpore nuevas funciones o mejoras en el backend.</p>
 
         <h2>9. Contacto</h2>
-        <p>Si tienes dudas, comentarios o deseas reportar alguna inquietud relacionada con este sitio web, puedes escribirnos con total confianza al correo institucional:</p>
+        <p>Si tienes dudas, comentarios o deseas reportar alguna inquietud relacionada con este sitio web, puedes escribirnos al correo institucional:</p>
         <p><strong>Correo electrónico:</strong> ieca.ludokids@gmail.com</p>
 
         <p style="margin-top: 30px; font-size: 0.9rem; color: #636e72; text-align: center;">
@@ -158,8 +160,8 @@ session_start();
             <div class="footer-column">
                 <h4>Información</h4>
                 <ul class="footer-links">
-                    <li><a href="Politicas.php">Política de privacidad</a></li>
-                    <li><a href="Nosotros.php">Sobre nosotros</a></li>
+                    <li><a href="/Ludokids 3 de noviembre/FRONTED/INDEX/FOOTER_INDEX/Politicas.php">Política de privacidad</a></li>
+                    <li><a href="/Ludokids 3 de noviembre/FRONTED/INDEX/FOOTER_INDEX/Nosotros.php">Sobre nosotros</a></li>
                 </ul>
             </div>
             <div class="footer-column">

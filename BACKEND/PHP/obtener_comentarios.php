@@ -1,9 +1,7 @@
 <?php
-include 'conexion.php';
+include('conexion.php');
 
-header('Content-Type: application/json');
-
-$sql = "SELECT nombre, calificacion, comentario, fecha FROM comentario ORDER BY id_comentario DESC";
+$sql = "SELECT id_comentario, nombre, calificacion, comentario FROM comentario ORDER BY id_comentario DESC";
 $resultado = $conexion->query($sql);
 
 $comentarios = [];
@@ -14,6 +12,8 @@ if ($resultado && $resultado->num_rows > 0) {
     }
 }
 
+header('Content-Type: application/json');
 echo json_encode($comentarios);
+
 $conexion->close();
 ?>

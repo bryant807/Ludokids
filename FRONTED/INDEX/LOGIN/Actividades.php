@@ -70,10 +70,10 @@ $totalPDF = 0; // Podrías contar si la extensión es pdf si lo deseas
     <main class="contenedor">
 
         <aside class="barra-lateral">
-            <figure class="foto-perfil">
-                <img src="img/img_predeterminada.jpg" alt="Foto de perfil">
-            </figure>
-
+            <div class="tarjeta-avatar-perfil" style="text-align: center; padding: 20px 0; margin-bottom: 20px;">
+     <span style="font-size: 3.5rem; display: block; margin-bottom: 10px;">👤</span>
+     <h3 style="color: #333; font-size: 1.2rem; margin: 0;">Mi perfil</h3>
+  </div>
             <nav>
     <a href="Perfil.php" class="opcion">Perfil</a>
     <a href="Actividades.php" class="opcion activa">Mis Actividades</a>

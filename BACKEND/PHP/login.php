@@ -11,7 +11,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 
-    $sql = "SELECT id_usuario, nombre, correo, `contraseña` FROM usuario WHERE correo = ?";
+    // 1. Añadimos `, rol` a la consulta SQL para traerlo de la base de datos
+    $sql = "SELECT id_usuario, nombre, correo, `contraseña`, rol FROM usuario WHERE correo = ?";
     $stmt = $conexion->prepare($sql);
     
     if (!$stmt) {
@@ -30,6 +31,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['id_usuario'] = $usuario['id_usuario'];
             $_SESSION['nombre'] = $usuario['nombre'];
             $_SESSION['correo'] = $usuario['correo'];
+            
+            // 2. ¡ESTO ERA LO QUE FALTABA! Guardamos el rol en la sesión
+            $_SESSION['rol'] = $usuario['rol'];
 
             echo "<script>
                 alert('¡Bienvenido de nuevo, " . $usuario['nombre'] . "!');

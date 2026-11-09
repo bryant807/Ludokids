@@ -1,5 +1,7 @@
 <?php
 session_start();
+// Definimos si el usuario actual es admin para usarlo en JavaScript
+$esAdmin = (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin') ? 'true' : 'false';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -14,6 +16,9 @@ session_start();
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div style="background: yellow; color: black; padding: 10px; text-align: center; font-weight: bold;">
+    Rol actual en sesión: <?php echo isset($_SESSION['rol']) ? $_SESSION['rol'] : 'No hay rol definido'; ?>
+</div>
     <header class="header-ALL">
         <div class="Encabezado-De-Paginas">
             <div class="elmo-DiferenteH2">
@@ -27,24 +32,22 @@ session_start();
             </div>
         </div>
         <nav class="menu">
-    <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/PRINCIPALES/Inicio.html"><i class="fa-solid fa-house"></i><span>Inicio</span></a>
-    <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/PRINCIPALES/Juegos.php"><i class="fa-solid fa-gamepad"></i><span>Juegos</span></a>
-    <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/PRINCIPALES/Cuentos.php"><i class="fa-solid fa-book-open"></i><span>Cuentos</span></a>
-    <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/PRINCIPALES/Profesores.php" class="activo"><i class="fa-solid fa-chalkboard-user"></i><span>Profesores</span></a>
-    <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/PRINCIPALES/Recreo.php"><i class="fa-solid fa-puzzle-piece"></i><span>Recreo</span></a>
+            <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/PRINCIPALES/Inicio.html"><i class="fa-solid fa-house"></i><span>Inicio</span></a>
+            <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/PRINCIPALES/Juegos.php"><i class="fa-solid fa-gamepad"></i><span>Juegos</span></a>
+            <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/PRINCIPALES/Cuentos.php"><i class="fa-solid fa-book-open"></i><span>Cuentos</span></a>
+            <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/PRINCIPALES/Profesores.php" class="activo"><i class="fa-solid fa-chalkboard-user"></i><span>Profesores</span></a>
+            <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/PRINCIPALES/Recreo.php"><i class="fa-solid fa-puzzle-piece"></i><span>Recreo</span></a>
 
-    <?php if (isset($_SESSION['id_usuario'])): ?>
-        <!-- Ruta absoluta al Perfil -->
-        <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/LOGIN/Perfil.php" class="btn-login-nav activo" aria-label="Ver Perfil">
-            <i class="fa-solid fa-user-check"></i>
-        </a>
-    <?php else: ?>
-        <!-- Ruta absoluta al Inicio de Sesión -->
-        <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/LOGIN/InicioDeSesion.php" class="btn-login-nav" aria-label="Iniciar sesión">
-            <i class="fa-solid fa-user"></i>
-        </a>
-    <?php endif; ?>
-</nav>
+            <?php if (isset($_SESSION['id_usuario'])): ?>
+                <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/LOGIN/Perfil.php" class="btn-login-nav activo" aria-label="Ver Perfil">
+                    <i class="fa-solid fa-user-check"></i>
+                </a>
+            <?php else: ?>
+                <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/LOGIN/InicioDeSesion.php" class="btn-login-nav" aria-label="Iniciar sesión">
+                    <i class="fa-solid fa-user"></i>
+                </a>
+            <?php endif; ?>
+        </nav>
     </header>
     <div class="section-transition"></div>
 
@@ -132,6 +135,9 @@ session_start();
     </footer>
 
     <script>
+        // Variable inyectada desde PHP para saber si el usuario conectado es admin
+        const esUsuarioAdmin = <?php echo $esAdmin; ?>;
+
         const form = document.getElementById('formComentarios');
         const lista = document.getElementById('listaComentarios');
         const contador = document.getElementById('contadorComentarios');
@@ -177,8 +183,8 @@ session_start();
             });
         });
 
-        // Función para renderizar una tarjeta de comentario en la interfaz
-        function agregarComentarioUI(nombre, calificacion, comentario) {
+        // Función para renderizar una tarjeta de comentario en la interfaz con opción de borrar si es admin
+        function agregarComentarioUI(idComentario, nombre, calificacion, comentario) {
             const vacio = lista.querySelector('.Comentarios-Vacio');
             if (vacio) {
                 vacio.remove();
@@ -186,45 +192,61 @@ session_start();
 
             const tarjeta = document.createElement('div');
             tarjeta.className = 'Comentario-Item';
+            tarjeta.style.cssText = "background: #f9f9f9; padding: 15px; border-radius: 10px; margin-bottom: 10px; border-left: 5px solid #6c5ce7; position: relative;";
 
             const cabecera = document.createElement('div');
             cabecera.className = 'Comentario-Cabecera';
+            cabecera.style.cssText = "display: flex; justify-content: space-between; align-items: center;";
 
             const nombreEl = document.createElement('strong');
             nombreEl.textContent = nombre;
-
             cabecera.append(nombreEl);
+
+            // Si es admin, añadimos el botón de eliminar en la cabecera del comentario
+            if (esUsuarioAdmin && idComentario) {
+                const btnEliminar = document.createElement('a');
+                btnEliminar.href = `/Ludokids 3 de noviembre/BACKEND/PHP/eliminar_comentario.php?id=${idComentario}`;
+                btnEliminar.innerHTML = '<i class="fa-solid fa-trash"></i> Eliminar';
+                btnEliminar.style.cssText = "background: #e74c3c; color: white; padding: 5px 10px; border-radius: 5px; text-decoration: none; font-size: 0.8rem; font-weight: bold;";
+                btnEliminar.onclick = () => confirm('¿Estás seguro de eliminar este comentario?');
+                cabecera.append(btnEliminar);
+            }
+
             tarjeta.appendChild(cabecera);
 
             if (calificacion >= 1 && calificacion <= 5) {
                 const calificacionEl = document.createElement('p');
                 calificacionEl.className = 'Comentario-Calificacion';
+                calificacionEl.style.color = '#f1c40f';
+                calificacionEl.style.margin = '5px 0';
                 calificacionEl.textContent = '★'.repeat(calificacion) + '☆'.repeat(5 - calificacion) + ` (${calificacion}/5)`;
                 tarjeta.appendChild(calificacionEl);
             }
 
             const textoEl = document.createElement('p');
             textoEl.textContent = comentario;
+            textoEl.style.margin = '5px 0 0 0';
 
             tarjeta.appendChild(textoEl);
-            lista.prepend(tarjeta);
-
-            const totalActual = Number(contador.textContent) || 0;
-            contador.textContent = totalActual + 1;
+            lista.appendChild(tarjeta);
         }
 
-        // Cargar comentarios guardados desde la base de datos MySQL
+        // Cargar comentarios guardados desde la base de datos MySQL de forma sincronizada
         function cargarComentarios() {
             fetch('/Ludokids 3 de noviembre/BACKEND/PHP/obtener_comentarios.php')
                 .then(response => response.json())
                 .then(comentarios => {
-                    if (Array.isArray(comentarios) && comentarios.length > 0) {
+                    if (Array.isArray(comentarios)) {
                         contador.textContent = comentarios.length;
                         lista.replaceChildren();
 
-                        comentarios.forEach((c) => {
-                            agregarComentarioUI(c.nombre, Number(c.calificacion), c.comentario);
-                        });
+                        if (comentarios.length > 0) {
+                            comentarios.forEach((c) => {
+                                agregarComentarioUI(c.id_comentario, c.nombre, Number(c.calificacion), c.comentario);
+                            });
+                        } else {
+                            lista.innerHTML = '<p style="color: #777; text-align: center; padding: 20px;">No hay comentarios todavía. ¡Sé el primero en opinar!</p>';
+                        }
                     }
                 })
                 .catch(err => console.error("Error al cargar comentarios:", err));
@@ -234,7 +256,6 @@ session_start();
         form.addEventListener('submit', function (e) {
             e.preventDefault();
 
-            // VALIDACIÓN DE SESIÓN: Muestra alerta y redirige al login si no está logueado
             <?php if (!isset($_SESSION['id_usuario'])): ?>
                 alert('¡Debes iniciar sesión para poder enviar tu comentario!');
                 window.location.href = '/Ludokids 3 de noviembre/FRONTED/INDEX/LOGIN/InicioDeSesion.php';
@@ -265,8 +286,6 @@ session_start();
                 return;
             }
 
-            // Envío por AJAX a la base de datos mediante la ruta absoluta
-            // Envío por AJAX a la base de datos mediante la ruta absoluta
             const datosForm = new FormData();
             datosForm.append('nombre', nombre);
             datosForm.append('calificacion', calificacion);
@@ -279,7 +298,7 @@ session_start();
             .then(res => res.json())
             .then(data => {
                 if (data.exito) {
-                    agregarComentarioUI(nombre, calificacion, texto);
+                    cargarComentarios(); // Recargamos la lista y contador con datos reales
 
                     form.reset();
                     campoCalificacion.value = 0;
@@ -291,7 +310,6 @@ session_start();
                     mensajeConfirmacion.textContent = '🎉 ¡Gracias por tu sugerencia! Se ha publicado correctamente.';
                     mensajeConfirmacion.classList.add('visible');
                 } else {
-                    // AQUÍ VEREMOS EL ERROR EXACTO SI PHP RECHAZA EL GUARDADO
                     console.error("Error del servidor:", data.mensaje);
                     alert("No se guardó: " + data.mensaje);
                 }

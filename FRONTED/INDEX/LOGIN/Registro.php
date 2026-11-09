@@ -1,96 +1,125 @@
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <!-- El resto de tu código HTML sigue igual -->
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LudoKids - Crear cuenta</title>
+    <title>LudoKids - Registro de Usuario</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../../CSS/Index.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@500;700&family=Baloo+2:wght@600;800&display=swap" rel="stylesheet">
     <style>
-        .Comentarios-Form label { font-weight: bold; color: #555; }
-        .mensaje-confirmacion { display: none; text-align: center; font-weight: bold; padding: 10px; border-radius: 12px; margin-top: 10px; }
-        .mensaje-confirmacion.visible { display: block; }
-        .mensaje-confirmacion.exito { background: #d4edda; color: #155724; }
-        .mensaje-confirmacion.error { background: #f8d7da; color: #721c24; }
-        .auth-enlace { text-align: center; margin-top: 15px; color: #444; }
-        .auth-enlace a { color: #b6207d; font-weight: bold; text-decoration: underline; }
-        .campo-password { position: relative; display: flex; }
-        .campo-password input { width: 100%; padding-right: 48px; }
-        .btn-ver-password { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 1.1rem; color: #555; }
-        .ayuda-password { font-size: 0.85rem; color: #777; margin-top: -6px; }
+        .auth-container {
+            max-width: 450px;
+            margin: 50px auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 3px solid var(--azul);
+        }
+        .auth-container h2 {
+            font-family: 'Baloo 2', cursive;
+            color: #6c5ce7;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 2rem;
+        }
+        .auth-container label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+        }
+        .auth-container input, 
+        .auth-container select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .auth-container button {
+            width: 100%;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .auth-container button:hover {
+            background-color: #219653;
+        }
+        .auth-links {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .auth-links a {
+            color: #6c5ce7;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .auth-links a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <header class="header-ALL">
         <div class="Encabezado-De-Paginas">
             <div class="elmo-DiferenteH2">
-                <img src="../../ELEMENTOS/mario_header2-removebg-preview.webp" alt="figurita de elmo">
+                <img src="../../ELEMENTOS/mario_header2-removebg-preview.webp" alt="Elmo">
             </div>
             <div class="letrero-Del-H2">
                 <img src="../../ELEMENTOS/letrero-header-2.png" alt="slogan">
-            </div>
+            </div>  
             <div class="texto-elmo">
-                <img src="../../ELEMENTOS/logo_principal-removebg-preview.webp" alt="texto sobre la pagina">
+                <img src="../../ELEMENTOS/logo_principal-removebg-preview.webp" alt="logo">
             </div>
         </div>
         <nav class="menu">
-            <a href="../PRINCIPALES/Inicio.html"><i class="fa-solid fa-house"></i><span>Inicio</span></a>
-            <a href="../PRINCIPALES/Juegos.php"><i class="fa-solid fa-gamepad"></i><span>Juegos</span></a>
-            <a href="../PRINCIPALES/Cuentos.php"><i class="fa-solid fa-book-open"></i><span>Cuentos</span></a>
-            <a href="../PRINCIPALES/Profesores.php"><i class="fa-solid fa-chalkboard-user"></i><span>Profesores</span></a>
-            <a href="../PRINCIPALES/Recreo.php"><i class="fa-solid fa-puzzle-piece"></i><span>Recreo</span></a>
-            <a href="InicioDeSesion.php" class="btn-login-nav activo" aria-label="Iniciar sesión"><i class="fa-solid fa-user"></i></a>
+            <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/PRINCIPALES/Inicio.html"><i class="fa-solid fa-house"></i><span>Inicio</span></a>
+            <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/PRINCIPALES/Juegos.php"><i class="fa-solid fa-gamepad"></i><span>Juegos</span></a>
+            <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/PRINCIPALES/Cuentos.php"><i class="fa-solid fa-book-open"></i><span>Cuentos</span></a>
+            <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/PRINCIPALES/Profesores.php"><i class="fa-solid fa-chalkboard-user"></i><span>Profesores</span></a>
+            <a href="/Ludokids 3 de noviembre/FRONTED/INDEX/PRINCIPALES/Recreo.php"><i class="fa-solid fa-puzzle-piece"></i><span>Recreo</span></a>
+            <a href="InicioDeSesion.php" class="btn-login-nav"><i class="fa-solid fa-user"></i></a>
         </nav>
     </header>
-    <div class="section-transition"></div>
 
     <main>
-        <section class="Contenido-Profesores">
-            <h1 class="titulo-comentarios">Crear cuenta</h1>
-            <div class="Comentarios-Contenedor">
-                <p class="Comentarios-Intro">¡Únete a LudoKids! Crea tu cuenta para explorar, jugar y aprender.</p>
+        <div class="auth-container">
+            <h2>Crear Cuenta</h2>
+            <form action="/Ludokids 3 de noviembre/BACKEND/PHP/registro.php" method="POST">
+                <label for="nombre">Nombre completo</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Ej. Ana María" required>
 
-                <!-- El formulario apunta al archivo PHP mediante POST -->
-                <form class="Comentarios-Form" action="/Ludokids 3 de noviembre/BACKEND/PHP/registro.php" method="POST" id="Registro">
-                    <label for="nombre">Tu nombre</label>
-                    <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre" autocomplete="name" required>
+                <label for="correo">Correo electrónico</label>
+                <input type="email" id="correo" name="correo" placeholder="correo@ejemplo.com" required>
 
-                    <label for="correo">Correo electrónico</label>
-                    <input type="email" id="correo" name="correo" placeholder="tucorreo@correo.com" autocomplete="email" required>
+                <label for="contrasena">Contraseña</label>
+                <input type="password" id="contrasena" name="contrasena" placeholder="Crea una contraseña segura" required>
 
-                    <label for="password">Contraseña</label>
-                    <div class="campo-password">
-                        <input type="password" id="password" name="password" placeholder="Mínimo 6 caracteres" autocomplete="new-password" minlength="6" required>
-                        <button type="button" class="btn-ver-password" id="verPassword" aria-label="Mostrar contraseña">
-                            <i class="fa-solid fa-eye"></i>
-                        </button>
-                    </div>
-                    <p class="ayuda-password">Usa al menos 6 caracteres.</p>
+                <label for="rol">Selecciona tu rol</label>
+                <select id="rol" name="rol" required>
+                    <option value="profesor">Profesor / Docente</option>
+                    <option value="otro">Otro</option>
+                </select>
 
-                    <label for="password2">Confirmar contraseña</label>
-                    <input type="password" id="password2" name="password2" placeholder="Repite tu contraseña" autocomplete="new-password" minlength="6" required>
-
-                    <button type="submit" class="Comentarios-Btn">
-                        <i class="fa-solid fa-user-plus"></i> Crear cuenta
-                    </button>
-                </form>
-
-                <p class="auth-enlace">¿Ya tienes cuenta? <a href="InicioDeSesion.php">Inicia sesión</a></p>
+                <button type="submit">Registrarse</button>
+            </form>
+            <div class="auth-links">
+                <p>¿Ya tienes una cuenta? <a href="InicioDeSesion.php">Inicia sesión aquí</a></p>
             </div>
-        </section>
-        <div class="contenedor-volver-comentarios">
-            <a class="btn-volver" href="../PRINCIPALES/Inicio.html">
-                <i class="fa-solid fa-arrow-left"></i>
-                Volver al inicio
-            </a>
         </div>
     </main>
 
@@ -127,17 +156,5 @@
             <p>&copy; <time datetime="2026">2026</time> LudoKids. Todos los derechos reservados.</p>
         </div>
     </footer>
-
-    <script>
-        // Script único para mostrar/ocultar contraseña (UX)
-        const inputPassword = document.getElementById('password');
-        const btnVer = document.getElementById('verPassword');
-
-        btnVer.addEventListener('click', () => {
-            const oculto = inputPassword.type === 'password';
-            inputPassword.type = oculto ? 'text' : 'password';
-            btnVer.innerHTML = oculto ? '<i class="fa-solid fa-eye-slash"></i>' : '<i class="fa-solid fa-eye"></i>';
-        });
-    </script>
 </body>
 </html>

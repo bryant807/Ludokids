@@ -28,11 +28,11 @@ session_start();
             </div>
         </div>
         <nav class="menu">
-    <a href="Inicio.html"><i class="fa-solid fa-house"></i><span>Inicio</span></a>
-    <a href="Juegos.php"><i class="fa-solid fa-gamepad"></i><span>Juegos</span></a>
-    <a href="Cuentos.php"><i class="fa-solid fa-book-open"></i><span>Cuentos</span></a>
-    <a href="Profesores.php"><i class="fa-solid fa-chalkboard-user"></i><span>Profesores</span></a>
-    <a href="Recreo.php"class="activo"><i class="fa-solid fa-puzzle-piece"></i><span>Recreo</span></a>
+    <a href="../../PRINCIPALES/Inicio.html"><i class="fa-solid fa-house"></i><span>Inicio</span></a>
+    <a href="../../PRINCIPALES/Juegos.php"><i class="fa-solid fa-gamepad"></i><span>Juegos</span></a>
+    <a href="../../PRINCIPALES/Cuentos.php"><i class="fa-solid fa-book-open"></i><span>Cuentos</span></a>
+    <a href="../../PRINCIPALES/Profesores.php"><i class="fa-solid fa-chalkboard-user"></i><span>Profesores</span></a>
+    <a href="../../PRINCIPALES/Recreo.php"class="activo"><i class="fa-solid fa-puzzle-piece"></i><span>Recreo</span></a>
 
     <?php if (isset($_SESSION['id_usuario'])): ?>
         <!-- SI HAY SESIÓN INICIADA: Muestra el icono con check y manda al Perfil -->
@@ -61,7 +61,7 @@ session_start();
                 </div>
                 <div style="width: 100%;"><div style="position: relative; padding-bottom: 56.25%; padding-top: 0; height: 0;">
                     <iframe title="JUEGO animales" frameborder="0" width="1200px" height="675px" style="position: absolute;
-                     top: 0; left: 0; width: 100%; height: 100%;" src="https://www.gamearter.com/game/tetris/" type="text/html" allowscriptaccess="always" allowfullscreen="true" scrolling="yes" allownetworking="all"></iframe> </div> </div>
+                     top: 0; left: 0; width: 100%; height: 100%;" src="http://block-blast.io/" type="text/html" allowscriptaccess="always" allowfullscreen="true" scrolling="yes" allownetworking="all"></iframe> </div> </div>
             </div>
  
             <!-- Controles: atrás, inicio / volumen, pantalla completa -->

@@ -27,7 +27,7 @@ session_start();
             </div>
         </div>
         <nav class="menu">
-    <a href="../Inicio.html"><i class="fa-solid fa-house"></i><span>Inicio</span></a>
+    <a href="Inicio.html"><i class="fa-solid fa-house"></i><span>Inicio</span></a>
     <a href="Juegos.php"><i class="fa-solid fa-gamepad"></i><span>Juegos</span></a>
     <a href="Cuentos.php"class="activo"><i class="fa-solid fa-book-open"></i><span>Cuentos</span></a>
     <a href="Profesores.php"><i class="fa-solid fa-chalkboard-user"></i><span>Profesores</span></a>

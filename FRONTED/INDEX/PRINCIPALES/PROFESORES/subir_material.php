@@ -110,6 +110,9 @@ session_start();
     </style>
 </head>
 <body>
+    <div style="background: yellow; color: black; padding: 10px; text-align: center; font-weight: bold;">
+    Rol actual en sesión: <?php echo isset($_SESSION['rol']) ? $_SESSION['rol'] : 'No hay rol definido'; ?>
+</div>
     <header class="header-ALL">
         <div class="Encabezado-De-Paginas">
             <div class="elmo-DiferenteH2">
@@ -163,7 +166,7 @@ session_start();
                 <?php
                 // Incluimos la conexión para listar el contenido
                 include($_SERVER['DOCUMENT_ROOT'] . '/Ludokids 3 de noviembre/BACKEND/PHP/conexion.php');                
-                $sqlListar = "SELECT m.titulo, m.archivo, m.fecha_publicacion, u.nombre AS profesor 
+                $sqlListar = "SELECT m.id_material, m.titulo, m.archivo, m.fecha_publicacion, u.nombre AS profesor 
                                 FROM material m 
                                 JOIN usuario u ON m.id_usuario = u.id_usuario 
                                 ORDER BY m.fecha_publicacion DESC";
@@ -172,16 +175,51 @@ session_start();
                 
                 if ($resultado && $resultado->num_rows > 0) {
                     while ($row = $resultado->fetch_assoc()) {
-                        echo '<div style="display: flex; justify-content: space-between; align-items: center; background: #f9f9f9; padding: 15px 20px; border-radius: 10px; border-left: 5px solid #b6207d;">';
+                        $nombreArchivo = $row['archivo'];
+                        $extension = strtolower(pathinfo($nombreArchivo, PATHINFO_EXTENSION));
+                        
+                        // Verificamos si es una imagen para mostrar miniatura
+                        $esImagen = in_array($extension, ['jpg', 'jpeg', 'png', 'webp', 'gif']);
+
+                        echo '<div style="display: flex; align-items: center; justify-content: space-between; background: #f9f9f9; padding: 15px 20px; border-radius: 10px; border-left: 5px solid #b6207d; gap: 15px;">';
+                        
+                        // Contenedor izquierdo: Miniatura o Icono + Título
+                        echo '<div style="display: flex; align-items: center; gap: 15px;">';
+                        
+                        if ($esImagen) {
+                            echo '<img src="/Ludokids 3 de noviembre/BACKEND/uploads/' . htmlspecialchars($nombreArchivo) . '" alt="Vista previa" style="width: 60px; height: 60px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd;">';
+                        } else {
+                            echo '<div style="width: 60px; height: 60px; background: #ffeaa7; display: flex; align-items: center; justify-content: center; border-radius: 8px; color: #d63031; font-size: 1.5rem;"><i class="fa-solid fa-file-pdf"></i></div>';
+                        }
+
                         echo '<div>';
                         echo '<h4 style="margin: 0 0 5px 0; color: #333; font-size: 1.1rem;">' . htmlspecialchars($row['titulo']) . '</h4>';
                         echo '<small style="color: #666;">Subido por: <strong>' . htmlspecialchars($row['profesor']) . '</strong> el ' . $row['fecha_publicacion'] . '</small>';
                         echo '</div>';
-                        // Cambia la línea del enlace de descarga por esta:
-                        echo '<a href="/Ludokids 3 de noviembre/BACKEND/uploads/' . htmlspecialchars($row['archivo']) . '" target="_blank" style="background: #b6207d; color: white; padding: 8px 15px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.9rem;" download>';
+                        echo '</div>';
+
+                        // Contenedor derecho: Botones separados (Ver, Descargar y Eliminar si es Admin)
+                        echo '<div style="display: flex; gap: 8px; white-space: nowrap;">';
+                        
+                        // Botón Ver
+                        echo '<a href="/Ludokids 3 de noviembre/BACKEND/uploads/' . htmlspecialchars($nombreArchivo) . '" target="_blank" style="background: #3498db; color: white; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.9rem;">';
+                        echo '<i class="fa-solid fa-eye"></i> Ver';
+                        echo '</a>';
+
+                        // Botón Descargar
+                        echo '<a href="/Ludokids 3 de noviembre/BACKEND/uploads/' . htmlspecialchars($nombreArchivo) . '" style="background: #27ae60; color: white; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.9rem;" download>';
                         echo '<i class="fa-solid fa-download"></i> Descargar';
                         echo '</a>';
-                        echo '</div>';
+
+                        // Botón Eliminar solo visible para Administradores
+                        if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin') {
+                            echo '<a href="/Ludokids 3 de noviembre/BACKEND/PHP/eliminar_material.php?id=' . $row['id_material'] . '" onclick="return confirm(\'¿Estás seguro de eliminar este material?\');" style="background: #e74c3c; color: white; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.9rem;">';
+                            echo '<i class="fa-solid fa-trash"></i> Eliminar';
+                            echo '</a>';
+                        }
+
+                        echo '</div>'; // Fin de contenedor de botones
+                        echo '</div>'; // Fin de tarjeta item
                     }
                 } else {
                     echo '<p style="color: #777; text-align: center; padding: 20px;">No hay materiales subidos todavía. ¡Sé el primero en compartir uno!</p>';
@@ -197,17 +235,17 @@ session_start();
             <div class="modal-content">
                 <h3>Subir Material</h3>
                 <form action="/Ludokids 3 de noviembre/BACKEND/PHP/guardar_material.php" method="POST" enctype="multipart/form-data">
-                <label for="nombreMaterial">Nombre del material</label>
-                <input type="text" id="nombreMaterial" name="nombreMaterial" placeholder="Ej: Fichas de sumas y restas" required>
+                    <label for="nombreMaterial">Nombre del material</label>
+                    <input type="text" id="nombreMaterial" name="nombreMaterial" placeholder="Ej: Fichas de sumas y restas" required>
 
-                <label for="archivoMaterial">Seleccionar archivo</label>
-                <input type="file" id="archivoMaterial" name="archivoMaterial" accept=".pdf,.doc,.docx,.png,.jpg" required>
+                    <label for="archivoMaterial">Seleccionar archivo</label>
+                    <input type="file" id="archivoMaterial" name="archivoMaterial" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" required>
 
-                <div class="modal-acciones">
-                    <button type="button" class="btn-cerrar" id="cerrarModal">Cancelar</button>
-                    <button type="submit" class="btn-guardar">Subir</button>
-                </div>
-            </form>
+                    <div class="modal-acciones">
+                        <button type="button" class="btn-cerrar" id="cerrarModal">Cancelar</button>
+                        <button type="submit" class="btn-guardar">Subir</button>
+                    </div>
+                </form>
             </div>
         </div>
     </main>
@@ -260,7 +298,6 @@ session_start();
             modal.style.display = 'none';
         });
 
-        // Cierra la ventana si hacen clic fuera del recuadro blanco
         window.addEventListener('click', (e) => {
             if (e.target === modal) {
                 modal.style.display = 'none';
