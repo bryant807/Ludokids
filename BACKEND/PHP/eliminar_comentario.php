@@ -2,9 +2,11 @@
 session_start();
 include('conexion.php');
 
-// Verificación estricta de seguridad
-if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'admin') {
-    echo "<script>alert('Acceso denegado. No tienes permisos de administrador.'); window.location.href = '../../FRONTED/INDEX/PRINCIPALES/Inicio.html';</script>";
+// Solo los profesores pueden eliminar comentarios.
+$rol = $_SESSION['rol'] ?? '';
+if (!isset($_SESSION['id_usuario']) || !is_string($rol) || strcasecmp($rol, 'profesor') !== 0) {
+    http_response_code(403);
+    echo "<script>alert('Acceso denegado. Solo los profesores pueden eliminar comentarios.'); window.location.href = '../../FRONTED/INDEX/PRINCIPALES/Inicio.html';</script>";
     exit();
 }
 
@@ -23,7 +25,8 @@ if (isset($_GET['id'])) {
 
     $stmt->close();
 } else {
-    window.history.back();
+    header("Location: ../../FRONTED/INDEX/PRINCIPALES/PROFESORES/comentarios.php");
+    exit();
 }
 $conexion->close();
 ?>

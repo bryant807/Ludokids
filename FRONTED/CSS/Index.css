@@ -202,13 +202,12 @@ img {
 .navN1 a {
   margin-top: 8px;
   text-decoration: none;
-  color: white;
-  font-family: "Fredoka One", cursive, sans-serif;
+  color: black;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
   font-weight: bold;
   font-size: 1.2rem;
   position: relative;
   z-index: 4;
-  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 /* ===========================

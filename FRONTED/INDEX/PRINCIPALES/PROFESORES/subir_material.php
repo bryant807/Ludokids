@@ -1,5 +1,24 @@
 <?php
 session_start();
+
+if (!isset($_SESSION['id_usuario'])) {
+    header('Location: ../../LOGIN/InicioDeSesion.php');
+    exit();
+}
+
+$esProfesor = isset($_SESSION['rol']) && is_string($_SESSION['rol'])
+    && strcasecmp(trim($_SESSION['rol']), 'profesor') === 0;
+
+$esPadre = isset($_SESSION['rol']) && is_string($_SESSION['rol'])
+    && strcasecmp(trim($_SESSION['rol']), 'padre') === 0;
+
+$rolesPermitidos = $esProfesor || $esPadre;
+
+if (!$rolesPermitidos) {
+    http_response_code(403);
+    echo "<script>alert('No tienes permiso para acceder a esta sección.'); window.location.href = '../Profesores.php';</script>";
+    exit();
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -110,9 +129,6 @@ session_start();
     </style>
 </head>
 <body>
-    <div style="background: yellow; color: black; padding: 10px; text-align: center; font-weight: bold;">
-    Rol actual en sesión: <?php echo isset($_SESSION['rol']) ? $_SESSION['rol'] : 'No hay rol definido'; ?>
-</div>
     <header class="header-ALL">
         <div class="Encabezado-De-Paginas">
             <div class="elmo-DiferenteH2">
@@ -150,10 +166,14 @@ session_start();
             <h1>Gestión de Material Educativo</h1>
             <p style="color: #666; margin-bottom: 30px;">Comparte y visualiza recursos educativos para los estudiantes.</p>
             
-            <!-- Botón grande para abrir la ventana modal -->
-            <button type="button" class="btn-abrir-modal" id="abrirModal">
-                <i class="fa-solid fa-plus-circle"></i> Subir material nuevo
-            </button>
+            <?php if ($esProfesor): ?>
+                <!-- Botón grande para abrir la ventana modal -->
+                <button type="button" class="btn-abrir-modal" id="abrirModal">
+                    <i class="fa-solid fa-plus-circle"></i> Subir material nuevo
+                </button>
+            <?php else: ?>
+                <p style="color: #666;"><i class="fa-solid fa-eye"></i> Puedes consultar y descargar los materiales publicados por los profesores.</p>
+            <?php endif; ?>
         </div>
 
         <!-- SECCIÓN PÚBLICA: Lista de materiales guardados para cualquier usuario -->
@@ -169,6 +189,7 @@ session_start();
                 $sqlListar = "SELECT m.id_material, m.titulo, m.archivo, m.fecha_publicacion, u.nombre AS profesor 
                                 FROM material m 
                                 JOIN usuario u ON m.id_usuario = u.id_usuario 
+                                WHERE m.visible = 1
                                 ORDER BY m.fecha_publicacion DESC";
                 
                 $resultado = $conexion->query($sqlListar);
@@ -211,8 +232,8 @@ session_start();
                         echo '<i class="fa-solid fa-download"></i> Descargar';
                         echo '</a>';
 
-                        // Botón Eliminar solo visible para Administradores
-                        if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin') {
+                        // Botón Eliminar solo visible para profesores
+                        if (isset($_SESSION['rol']) && is_string($_SESSION['rol']) && strcasecmp($_SESSION['rol'], 'profesor') === 0) {
                             echo '<a href="/Ludokids 3 de noviembre/BACKEND/PHP/eliminar_material.php?id=' . $row['id_material'] . '" onclick="return confirm(\'¿Estás seguro de eliminar este material?\');" style="background: #e74c3c; color: white; padding: 8px 12px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.9rem;">';
                             echo '<i class="fa-solid fa-trash"></i> Eliminar';
                             echo '</a>';
@@ -230,24 +251,26 @@ session_start();
             </div>
         </section>
 
-        <!-- Ventana Modal Oculta para subir -->
-        <div class="modal-overlay" id="modalSubida">
-            <div class="modal-content">
-                <h3>Subir Material</h3>
-                <form action="/Ludokids 3 de noviembre/BACKEND/PHP/guardar_material.php" method="POST" enctype="multipart/form-data">
-                    <label for="nombreMaterial">Nombre del material</label>
-                    <input type="text" id="nombreMaterial" name="nombreMaterial" placeholder="Ej: Fichas de sumas y restas" required>
+        <?php if ($esProfesor): ?>
+            <!-- Ventana Modal Oculta para subir -->
+            <div class="modal-overlay" id="modalSubida">
+                <div class="modal-content">
+                    <h3>Subir Material</h3>
+                    <form action="/Ludokids 3 de noviembre/BACKEND/PHP/guardar_material.php" method="POST" enctype="multipart/form-data">
+                        <label for="nombreMaterial">Nombre del material</label>
+                        <input type="text" id="nombreMaterial" name="nombreMaterial" placeholder="Ej: Fichas de sumas y restas" required>
 
-                    <label for="archivoMaterial">Seleccionar archivo</label>
-                    <input type="file" id="archivoMaterial" name="archivoMaterial" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg" required>
+                        <label for="archivoMaterial">Seleccionar archivo</label>
+                        <input type="file" id="archivoMaterial" name="archivoMaterial" accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp" required>
 
-                    <div class="modal-acciones">
-                        <button type="button" class="btn-cerrar" id="cerrarModal">Cancelar</button>
-                        <button type="submit" class="btn-guardar">Subir</button>
-                    </div>
-                </form>
+                        <div class="modal-acciones">
+                            <button type="button" class="btn-cerrar" id="cerrarModal">Cancelar</button>
+                            <button type="submit" class="btn-guardar">Subir</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
+        <?php endif; ?>
     </main>
 
     <footer class="main-footer">
@@ -290,19 +313,21 @@ session_start();
         const btnCerrar = document.getElementById('cerrarModal');
         const modal = document.getElementById('modalSubida');
 
-        btnAbrir.addEventListener('click', () => {
-            modal.style.display = 'flex';
-        });
+        if (btnAbrir && btnCerrar && modal) {
+            btnAbrir.addEventListener('click', () => {
+                modal.style.display = 'flex';
+            });
 
-        btnCerrar.addEventListener('click', () => {
-            modal.style.display = 'none';
-        });
-
-        window.addEventListener('click', (e) => {
-            if (e.target === modal) {
+            btnCerrar.addEventListener('click', () => {
                 modal.style.display = 'none';
-            }
-        });
+            });
+
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
     </script>
 </body>
 </html>

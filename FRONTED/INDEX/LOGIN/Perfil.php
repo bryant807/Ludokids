@@ -6,6 +6,9 @@ if (!isset($_SESSION['id_usuario'])) {
     header("Location: InicioDeSesion.php");
     exit();
 }
+
+$esProfesor = isset($_SESSION['rol']) && is_string($_SESSION['rol'])
+    && strcasecmp(trim($_SESSION['rol']), 'profesor') === 0;
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -63,7 +66,9 @@ if (!isset($_SESSION['id_usuario'])) {
 
   <nav>
       <a href="Perfil.php" class="opcion <?php echo basename($_SERVER['PHP_SELF']) == 'Perfil.php' ? 'activa' : ''; ?>">Perfil</a>
-      <a href="Actividades.php" class="opcion <?php echo basename($_SERVER['PHP_SELF']) == 'Actividades.php' ? 'activa' : ''; ?>">Mis Actividades</a>
+      <?php if ($esProfesor): ?>
+          <a href="Actividades.php" class="opcion <?php echo basename($_SERVER['PHP_SELF']) == 'Actividades.php' ? 'activa' : ''; ?>">Mis Actividades</a>
+      <?php endif; ?>
       <a href="/Ludokids 3 de noviembre/BACKEND/PHP/logout.php" class="opcion" style="color: #e74c3c;">
           <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
       </a>

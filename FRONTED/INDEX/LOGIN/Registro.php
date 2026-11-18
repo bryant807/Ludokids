@@ -111,8 +111,8 @@ session_start();
 
                 <label for="rol">Selecciona tu rol</label>
                 <select id="rol" name="rol" required>
-                    <option value="profesor">Profesor / Docente</option>
-                    <option value="otro">Otro</option>
+                    <option value="profesor">Profesor</option>
+                    <option value="Padre">Padre</option>
                 </select>
 
                 <button type="submit">Registrarse</button>

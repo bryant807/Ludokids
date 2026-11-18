@@ -8,11 +8,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Si en tu formulario el input es <input name="contrasena">, cambia 'password' por 'contrasena'
     $password = $_POST['password'] ?? $_POST['contrasena'] ?? '';
     
-    // Recogemos el rol de forma segura
-    $rol = $_POST['rol'] ?? 'profesor';
-    $rolesPermitidos = ['profesor', 'otro'];
-    if (!in_array($rol, $rolesPermitidos)) {
-        $rol = 'profesor';
+    $rol = $_POST['rol'] ?? '';
+    $rolesPermitidos = ['profesor', 'Padre'];
+    if (!in_array($rol, $rolesPermitidos, true)) {
+        http_response_code(400);
+        echo "<script>alert('Selecciona un rol válido.'); window.history.back();</script>";
+        exit();
     }
 
     if (!empty($nombre) && !empty($correo) && !empty($password)) {

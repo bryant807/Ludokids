@@ -7,15 +7,39 @@ if (!isset($_SESSION['id_usuario'])) {
     exit();
 }
 
+$rol = $_SESSION['rol'] ?? '';
+if (!is_string($rol) || strcasecmp(trim($rol), 'profesor') !== 0) {
+    http_response_code(403);
+    echo "<script>alert('Acceso denegado. Solo los profesores pueden subir material.'); window.location.href = '../../FRONTED/INDEX/PRINCIPALES/Profesores.php';</script>";
+    exit();
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $titulo = trim($_POST['nombreMaterial']);
     $id_usuario = $_SESSION['id_usuario'];
+
+    if ($titulo === '') {
+        echo "<script>alert('Ingresa un nombre para el material.'); window.history.back();</script>";
+        exit();
+    }
     
     if (isset($_FILES['archivoMaterial']) && $_FILES['archivoMaterial']['error'] === UPLOAD_ERR_OK) {
         $archivoTmp = $_FILES['archivoMaterial']['tmp_name'];
         $nombreOriginal = basename($_FILES['archivoMaterial']['name']);
         
-        $extension = pathinfo($nombreOriginal, PATHINFO_EXTENSION);
+        $extension = strtolower(pathinfo($nombreOriginal, PATHINFO_EXTENSION));
+        $extensionesPermitidas = ['pdf', 'doc', 'docx', 'png', 'jpg', 'jpeg', 'webp'];
+
+        if (!in_array($extension, $extensionesPermitidas, true)) {
+            echo "<script>alert('Tipo de archivo no permitido.'); window.history.back();</script>";
+            exit();
+        }
+
+        if ($_FILES['archivoMaterial']['size'] > 10 * 1024 * 1024) {
+            echo "<script>alert('El archivo no puede superar 10 MB.'); window.history.back();</script>";
+            exit();
+        }
+
         $nombreUnico = uniqid('mat_') . '.' . $extension;
         
         $carpetaDestino = "../uploads/";

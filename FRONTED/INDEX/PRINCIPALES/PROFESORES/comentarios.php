@@ -1,7 +1,6 @@
 <?php
 session_start();
-// Definimos si el usuario actual es admin para usarlo en JavaScript
-$esAdmin = (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin') ? 'true' : 'false';
+$esProfesor = (isset($_SESSION['rol']) && is_string($_SESSION['rol']) && strcasecmp($_SESSION['rol'], 'profesor') === 0) ? 'true' : 'false';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -16,9 +15,6 @@ $esAdmin = (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin') ? 'true' : 
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div style="background: yellow; color: black; padding: 10px; text-align: center; font-weight: bold;">
-    Rol actual en sesión: <?php echo isset($_SESSION['rol']) ? $_SESSION['rol'] : 'No hay rol definido'; ?>
-</div>
     <header class="header-ALL">
         <div class="Encabezado-De-Paginas">
             <div class="elmo-DiferenteH2">
@@ -135,8 +131,7 @@ $esAdmin = (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin') ? 'true' : 
     </footer>
 
     <script>
-        // Variable inyectada desde PHP para saber si el usuario conectado es admin
-        const esUsuarioAdmin = <?php echo $esAdmin; ?>;
+        const esUsuarioProfesor = <?php echo $esProfesor; ?>;
 
         const form = document.getElementById('formComentarios');
         const lista = document.getElementById('listaComentarios');
@@ -183,7 +178,7 @@ $esAdmin = (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin') ? 'true' : 
             });
         });
 
-        // Función para renderizar una tarjeta de comentario en la interfaz con opción de borrar si es admin
+        // Función para renderizar una tarjeta de comentario en la interfaz con opción de borrar si es profesor
         function agregarComentarioUI(idComentario, nombre, calificacion, comentario) {
             const vacio = lista.querySelector('.Comentarios-Vacio');
             if (vacio) {
@@ -202,8 +197,8 @@ $esAdmin = (isset($_SESSION['rol']) && $_SESSION['rol'] === 'admin') ? 'true' : 
             nombreEl.textContent = nombre;
             cabecera.append(nombreEl);
 
-            // Si es admin, añadimos el botón de eliminar en la cabecera del comentario
-            if (esUsuarioAdmin && idComentario) {
+            // Solo los profesores pueden eliminar comentarios.
+            if (esUsuarioProfesor && idComentario) {
                 const btnEliminar = document.createElement('a');
                 btnEliminar.href = `/Ludokids 3 de noviembre/BACKEND/PHP/eliminar_comentario.php?id=${idComentario}`;
                 btnEliminar.innerHTML = '<i class="fa-solid fa-trash"></i> Eliminar';

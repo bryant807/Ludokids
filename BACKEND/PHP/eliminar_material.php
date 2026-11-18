@@ -2,32 +2,19 @@
 session_start();
 include('conexion.php');
 
-// Verificación estricta: Solo el administrador puede pasar de aquí
-if (!isset($_SESSION['id_usuario']) || $_SESSION['rol'] !== 'admin') {
-    echo "<script>alert('Acceso denegado. No tienes permisos de administrador.'); window.location.href = '/Ludokids 3 de noviembre/FRONTED/INDEX/PRINCIPALES/Inicio.html';</script>";
+// Solo los profesores pueden eliminar material.
+$rol = $_SESSION['rol'] ?? '';
+if (!isset($_SESSION['id_usuario']) || !is_string($rol) || strcasecmp($rol, 'profesor') !== 0) {
+    http_response_code(403);
+    echo "<script>alert('Acceso denegado. Solo los profesores pueden eliminar material.'); window.location.href = '/Ludokids 3 de noviembre/FRONTED/INDEX/PRINCIPALES/Inicio.html';</script>";
     exit();
 }
 
 if (isset($_GET['id'])) {
     $id_material = intval($_GET['id']);
 
-    // Buscar el nombre del archivo en la BD para borrarlo de la carpeta 'uploads'
-    $sql_archivo = "SELECT archivo FROM material WHERE id_material = ?";
-    $stmt_arch = $conexion->prepare($sql_archivo);
-    $stmt_arch->bind_param("i", $id_material);
-    $stmt_arch->execute();
-    $resultado = $stmt_arch->get_result();
-    
-    if ($row = $resultado->fetch_assoc()) {
-        $rutaArchivo = "../uploads/" . $row['archivo'];
-        if (file_exists($rutaArchivo)) {
-            unlink($rutaArchivo); // Borra el archivo físico del servidor
-        }
-    }
-    $stmt_arch->close();
-
-    // Eliminar el registro de la base de datos
-    $sql = "DELETE FROM material WHERE id_material = ?";
+    // Retirarlo de la vista pública sin borrar el registro ni el archivo del perfil del profesor.
+    $sql = "UPDATE material SET visible = 0 WHERE id_material = ?";
     $stmt = $conexion->prepare($sql);
     $stmt->bind_param("i", $id_material);
 

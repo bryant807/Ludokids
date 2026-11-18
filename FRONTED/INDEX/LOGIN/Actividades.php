@@ -7,6 +7,14 @@ if (!isset($_SESSION['id_usuario'])) {
     exit();
 }
 
+$esProfesor = isset($_SESSION['rol']) && is_string($_SESSION['rol'])
+    && strcasecmp(trim($_SESSION['rol']), 'profesor') === 0;
+
+if (!$esProfesor) {
+    header("Location: Perfil.php");
+    exit();
+}
+
 // Incluimos la conexión a la base de datos usando ruta absoluta desde la raíz del servidor
 include($_SERVER['DOCUMENT_ROOT'] . '/Ludokids 3 de noviembre/BACKEND/PHP/conexion.php');
 
@@ -118,6 +126,9 @@ $totalPDF = 0; // Podrías contar si la extensión es pdf si lo deseas
                                 <div>
                                     <h4 style="margin: 0 0 5px 0; color: #333; font-size: 1.1rem;"><?php echo htmlspecialchars($row['titulo']); ?></h4>
                                     <small style="color: #666;">Subido el: <?php echo $row['fecha_publicacion']; ?></small>
+                                    <?php if (isset($row['visible']) && (int)$row['visible'] === 0): ?>
+                                        <br><small style="color: #c0392b; font-weight: bold;">Retirado de la vista pública</small>
+                                    <?php endif; ?>
                                 </div>
                                 <a href="/Ludokids 3 de noviembre/BACKEND/uploads/<?php echo htmlspecialchars($row['archivo']); ?>" target="_blank" style="background: #b6207d; color: white; padding: 8px 15px; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.9rem;" download>
                                     <i class="fa-solid fa-download"></i> Descargar
@@ -130,7 +141,9 @@ $totalPDF = 0; // Podrías contar si la extensión es pdf si lo deseas
                             <div class="icono-vacio" style="font-size: 3rem; margin-bottom: 10px;">📂</div>
                             <h3>Todavía no tienes archivos</h3>
                             <p>Cuando subas un material desde tu perfil o profesores, aparecerá aquí.</p>
-                            <a href="../PRINCIPALES/PROFESORES/subir_material.php" class="boton-perfil" style="display: inline-block; margin-top: 15px; background: #b6207d; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold;">Subir material</a>
+                            <?php if ($esProfesor): ?>
+                                <a href="../PRINCIPALES/PROFESORES/subir_material.php" class="boton-perfil" style="display: inline-block; margin-top: 15px; background: #b6207d; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold;">Subir material</a>
+                            <?php endif; ?>
                         </div>
                     <?php endif; ?>
                 </div>

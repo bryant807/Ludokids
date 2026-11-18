@@ -1,5 +1,10 @@
 <?php
 session_start();
+
+$esProfesor = isset($_SESSION['rol']) && is_string($_SESSION['rol'])
+    && strcasecmp(trim($_SESSION['rol']), 'profesor') === 0;
+$esPadre = isset($_SESSION['rol']) && is_string($_SESSION['rol'])
+    && strcasecmp(trim($_SESSION['rol']), 'padre') === 0;
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -108,12 +113,19 @@ session_start();
                     <p>Material para que los niños puedan practicar su escritura.</p>
                 </a>
 
-                <!-- NUEVO RECUADRO: Subir Material con el icono de más -->
-                <a class="Ayuda-Agregar" href="PROFESORES/subir_material.php">
-                    <i class="fa-solid fa-circle-plus"></i>
-                    <h2>Subir material</h2>
-                    <p>Comparte contenido nuevo para los estudiantes.</p>
-                </a>
+                <?php if ($esProfesor): ?>
+                    <a class="Ayuda-Agregar" href="PROFESORES/subir_material.php">
+                        <i class="fa-solid fa-circle-plus"></i>
+                        <h2>Subir material</h2>
+                        <p>Comparte contenido nuevo para los estudiantes.</p>
+                    </a>
+                <?php elseif ($esPadre): ?>
+                    <a class="Ayuda-Agregar" href="PROFESORES/subir_material.php">
+                        <i class="fa-solid fa-folder-open"></i>
+                        <h2>Ver material educativo</h2>
+                        <p>Consulta y descarga los recursos compartidos por los profesores.</p>
+                    </a>
+                <?php endif; ?>
             </div>
         </section>
     </main>
